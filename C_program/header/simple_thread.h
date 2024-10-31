@@ -7,9 +7,15 @@
 
 #define ERRTHRDCRT 1
 #define ERRTHRDJON 2
+
 /**
  * 
 */
-void* my_thread();
+void* my_thread1();
+
+/**
+ * 
+*/
+void* my_thread2();
 
 #endif
