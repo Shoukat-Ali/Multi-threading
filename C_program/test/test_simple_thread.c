@@ -30,11 +30,11 @@ int main()
      */
     if(pthread_create(&t1, NULL, &my_thread, NULL) != 0) {
         perror("Failed to create thread t1");
-        return 1;
+        return ERRTHRDCRT;
     }
     if(pthread_create(&t2, NULL, &my_thread, NULL) != 0) {
         perror("Failed to create thread t2");
-        return 1;
+        return ERRTHRDCRT;
     }
     // Waiting for the thread(s) to terminate
     /**
@@ -54,11 +54,11 @@ int main()
      */
     if(pthread_join(t1, NULL) != 0) {
         perror("Termination of thread t1 failed");
-        return 2;
+        return ERRTHRDJON;
     }
     if(pthread_join(t2, NULL) != 0) {
         printf("Termination of thread t2 failed");
-        return 2;
+        return ERRTHRDJON;
     }
 
     return 0;

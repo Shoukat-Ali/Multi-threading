@@ -5,6 +5,8 @@
 #ifndef SIMPLE_THREAD_H
 #define SIMPLE_THREAD_H
 
+#define ERRTHRDCRT 1
+#define ERRTHRDJON 2
 /**
  * 
 */
