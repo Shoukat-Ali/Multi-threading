@@ -32,7 +32,8 @@ int main()
         perror("Failed to create thread t1");
         return ERRTHRDCRT;
     }
-    if(pthread_create(&t2, NULL, &my_thread2, NULL) != 0) {
+
+    if(pthread_create(&t2, NULL, &my_thread2, "Testing argument") != 0) {
         perror("Failed to create thread t2");
         return ERRTHRDCRT;
     }
@@ -56,6 +57,7 @@ int main()
         perror("Termination of thread t1 failed");
         return ERRTHRDJON;
     }
+    
     if(pthread_join(t2, NULL) != 0) {
         printf("Termination of thread t2 failed");
         return ERRTHRDJON;
