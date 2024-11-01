@@ -13,7 +13,7 @@
 
 int main()
 {
-    pthread_t t1, t2;   // pthread_t is a type used to identify a thread
+    pthread_t t1, t2, t3;   // pthread_t is a type used to identify a thread
     // Creating thread(s)
     /**
      * int pthread_create(pthread_t *restrict thread,
@@ -37,6 +37,11 @@ int main()
         perror("Failed to create thread t2");
         return ERRTHRDCRT;
     }
+
+    if(pthread_create(&t3, NULL, &my_thread2, NULL) != 0) {
+        perror("Failed to create thread t3");
+        return ERRTHRDCRT;
+    }
     // Waiting for the thread(s) to terminate
     /**
      * int pthread_join(pthread_t thread, void **retval);
@@ -57,9 +62,14 @@ int main()
         perror("Termination of thread t1 failed");
         return ERRTHRDJON;
     }
-    
+
     if(pthread_join(t2, NULL) != 0) {
         printf("Termination of thread t2 failed");
+        return ERRTHRDJON;
+    }
+
+    if(pthread_join(t3, NULL) != 0) {
+        printf("Termination of thread t3 failed");
         return ERRTHRDJON;
     }
 

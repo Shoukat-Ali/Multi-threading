@@ -13,9 +13,9 @@
  */
 void* my_thread1()
 {
-    printf("Starting thread-1\n");
+    printf("Starting thread\n");
     sleep(4);
-    printf("Ending thread-1\n");
+    printf("Ending thread\n");
     return NULL;
 }
 
@@ -24,7 +24,7 @@ void* my_thread1()
  */
 void* my_thread2(void* arg)
 {
-    char* msg = '\0';   // default is null character 
+    char* msg = "";   // default is null string 
 
     // validating that void* is not null pointer 
     if (arg != NULL) {
@@ -34,11 +34,13 @@ void* my_thread2(void* arg)
         // Otherwise, point to null character
         if(strlen(msg) > MAX_LEN) {
             // Revert arg to null character
-            msg = '\0';
+            // msg = '\0';
+            // Revert arg to null string
+            msg = "";
         }
     }
-    printf("Starting thread-2 with arg (%s)\n", msg);
+    printf("Starting thread with arg (%s)\n", msg);
     sleep(2);
-    printf("Ending thread-2\n");
+    printf("Ending thread with arg (%s)\n", msg);
     return NULL;
 }
