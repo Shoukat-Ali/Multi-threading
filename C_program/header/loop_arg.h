@@ -5,6 +5,10 @@
 #ifndef LOOP_ARG_H
 #define LOOP_ARG_H
 
+
+#define ERRTHRDCRT 1
+#define ERRTHRDJON 2
+
 /**
  * 
 */

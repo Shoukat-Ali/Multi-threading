@@ -16,21 +16,21 @@
 int main()
 {
     pthread_t thrd[NUM_THREADS];
-    int primes[NUM_THREADS] = {2, 3, 5, 7, 11, 13, 17, 19, 23, 29, INT_MAX};
+    int primes[NUM_THREADS] = {2, 3, 5, 7, 11, 13, 17, 19, 23, 29, INT_MAX};    // INT_MAX is for testing only
     int i;
 
     for(i = 0; i < NUM_THREADS; ++i) {
         // Note that the argument passed to thread is not shared
         if(pthread_create(thrd + i, NULL, &display_prime, primes + i)) {
             perror("Thread creation failed");
-            return 1;
+            return ERRTHRDCRT;
         }
     }
 
     for(i = 0; i < NUM_THREADS; ++i) {
         if(pthread_join(thrd[i], NULL)) {
             perror("Thread termination failed");
-            return 2;
+            return ERRTHRDJON;
         }
     }
 
