@@ -30,17 +30,17 @@ int main()
      */
     if(pthread_create(&t1, NULL, &my_thread1, NULL) != 0) {
         perror("Failed to create thread t1");
-        return ERRTHRDCRT;
+        return ERR_THRD_CREATE;
     }
 
     if(pthread_create(&t2, NULL, &my_thread2, "Testing argument") != 0) {
         perror("Failed to create thread t2");
-        return ERRTHRDCRT;
+        return ERR_THRD_CREATE;
     }
 
     if(pthread_create(&t3, NULL, &my_thread2, NULL) != 0) {
         perror("Failed to create thread t3");
-        return ERRTHRDCRT;
+        return ERR_THRD_CREATE;
     }
     // Waiting for the thread(s) to terminate
     /**
@@ -60,17 +60,17 @@ int main()
      */
     if(pthread_join(t1, NULL) != 0) {
         perror("Termination of thread t1 failed");
-        return ERRTHRDJON;
+        return ERR_THRD_JOIN;
     }
 
     if(pthread_join(t2, NULL) != 0) {
         printf("Termination of thread t2 failed");
-        return ERRTHRDJON;
+        return ERR_THRD_JOIN;
     }
 
     if(pthread_join(t3, NULL) != 0) {
         printf("Termination of thread t3 failed");
-        return ERRTHRDJON;
+        return ERR_THRD_JOIN;
     }
 
     return 0;

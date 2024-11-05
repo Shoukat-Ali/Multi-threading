@@ -31,7 +31,7 @@ void* simple_thread()
      * Therefore, one can use pthread_self(void);
      */
     // printf("Starting: Process id: %d, Thread id: %ld\n", getpid(), syscall(SYS_gettid));
-    printf("Starting: Process id: %d, Thread id: %lu\n", getpid(), (unsigned long)pthread_self());
+    printf("Starting:: Process id: %d, Thread id: %lu\n", getpid(), (unsigned long)pthread_self());
 
     for(int i = 0; i < ITERATIONS; ++i) {
         /**
@@ -71,7 +71,7 @@ void* simple_thread()
             }
         }
     }
-    // printf("Ending  : Process id: %d, Thread id: %ld\n", getpid(), syscall(SYS_gettid));
-    printf("Ending: Process id: %d, Thread id: %lu\n", getpid(), (unsigned long)pthread_self());
+    // printf("Ending  :: Process id: %d, Thread id: %ld\n", getpid(), syscall(SYS_gettid));
+    printf("Ending::   Process id: %d, Thread id: %lu\n", getpid(), (unsigned long)pthread_self());
     return NULL;
 }

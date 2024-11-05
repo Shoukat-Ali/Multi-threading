@@ -5,8 +5,8 @@
 #ifndef SIMPLE_THREAD_H
 #define SIMPLE_THREAD_H
 
-#define ERRTHRDCRT 1
-#define ERRTHRDJON 2
+#define ERR_THRD_CREATE 1
+#define ERR_THRD_JOIN 2
 
 #define MAX_LEN 55  // For testing by restrict maximum string length
 
