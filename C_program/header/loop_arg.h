@@ -6,8 +6,8 @@
 #define LOOP_ARG_H
 
 
-#define ERRTHRDCRT 1
-#define ERRTHRDJON 2
+#define ERR_THRD_CREATE 1
+#define ERR_THRD_JOIN 2
 
 /**
  * 

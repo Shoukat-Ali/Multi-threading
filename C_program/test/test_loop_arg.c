@@ -23,14 +23,14 @@ int main()
         // Note that the argument passed to thread is not shared
         if(pthread_create(thrd + i, NULL, &display_prime, primes + i)) {
             perror("Thread creation failed");
-            return ERRTHRDCRT;
+            return ERR_THRD_CREATE;
         }
     }
 
     for(i = 0; i < NUM_THREADS; ++i) {
         if(pthread_join(thrd[i], NULL)) {
             perror("Thread termination failed");
-            return ERRTHRDJON;
+            return ERR_THRD_JOIN;
         }
     }
 
