@@ -1,8 +1,15 @@
 /**
+ * Chef and stove multi-threading program that uses mutex
+ * 
+ * gcc -Wall -Werror -g3 -O3 ../source/chef_stove.c test_chef_stove.c -o prog
  * 
 */
 
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
 #include "../header/chef_stove.h"
+
 #define NUM_THREAD 13
 
 // Definition of global shared resource/data

@@ -1,7 +1,10 @@
 /**
  * 
 */
-
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <time.h>
 #include "../header/chef_stove.h"
 
 #define FUEL_CONSUMPTION_LIMIT 50
