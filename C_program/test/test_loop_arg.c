@@ -23,6 +23,20 @@ int main()
         // Note that the argument passed to thread is not shared
         if(pthread_create(thrd + i, NULL, &display_prime, primes + i)) {
             perror("Thread creation failed");
+            /**
+             * What happens to created threads when main() returns?
+             * 
+             * Returning from the initial thread (main()) implicitly calls 
+             * the exit subroutine, thus terminating all the threads in the process
+             * Link: https://www.ibm.com/docs/en/aix/7.2?topic=programming-terminating-threads
+             * 
+             * 
+             * Returning from main() is the same as calling exit(). 
+             * This means handlers established by atexit(), and any system 
+             * cleanup handlers are run. Finally the kernel is asked to terminate 
+             * the entire process(i.e. all threads).
+             * Link: https://stackoverflow.com/questions/23807867/what-happens-to-a-running-thread-on-return-from-main-in-c
+             */
             return ERR_THRD_CREATE;
         }
     }
