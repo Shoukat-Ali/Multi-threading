@@ -24,11 +24,18 @@ SRC_MUTEXTHRD = $(addprefix $(SRC_DIR),simple_mutex.c)
 MAIN_MUTEXTHRD = $(addprefix $(MAIN_DIR),test_simple_mutex.c)
 
 
+# Chef and stove multi-threading using mutex (CHEFSTOVEMUTEX)
+HDR_CHEFSTOVEMUTEX = $(addprefix $(HEADER_DIR),chef_stove.h)
+SRC_CHEFSTOVEMUTEX = $(addprefix $(SRC_DIR),chef_stove.c)
+MAIN_CHEFSTOVEMUTEX = $(addprefix $(MAIN_DIR),test_chef_stove.c)
+
+
 
 #Object files
 OBJS_STHRD = main_SThrd.o src_SThrd.o
 OBJS_LPARGTHRD = main_LPArgThrd.o src_LPArgThrd.o
 OBJS_MUTEXTHRD = main_MutexThrd.o src_MutexThrd.o
+OBJS_CHEFSTOVEMUTEX = main_ChefStoveMutex.o src_ChefStoveMutex.o
 
 
 # Simple Thread (STHRD)
@@ -66,6 +73,17 @@ test_MutexThrd: $(OBJS_MUTEXTHRD)
 
 
 
+# Chef and stove multi-threading using mutex (CHEFSTOVEMUTEX)
+main_ChefStoveMutex.o: $(MAIN_CHEFSTOVEMUTEX)
+	$(CC) $(CFLAGS) $< -o $@
+
+src_ChefStoveMutex.o: $(SRC_CHEFSTOVEMUTEX) $(HDR_CHEFSTOVEMUTEX)
+	$(CC) $(CFLAGS) $< -o $@
+
+test_ChefStoveMutex: $(OBJS_CHEFSTOVEMUTEX)
+	$(CC) $^ -o $@
+
+
 
 .PHONY : clean
 clean_SThrd:
@@ -76,3 +94,6 @@ clean_LPArgThrd:
 
 clean_MutexThrd:
 	rm test_MutexThrd $(OBJS_MUTEXTHRD)
+
+clean_ChefStoveMutex:
+	rm test_ChefStoveMutex $(OBJS_CHEFSTOVEMUTEX)
