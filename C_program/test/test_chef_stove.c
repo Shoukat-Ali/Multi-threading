@@ -20,6 +20,24 @@ int main()
 {
     int i;
     pthread_t thrd[NUM_THREAD];
+    /**
+     * time_t time(time_t *_Nullable tloc);
+     * 
+     * time() returns the time as the number of seconds since the Epoch,
+     * 1970-01-01 00:00:00 +0000 (UTC).
+     * The tloc argument is obsolescent and should always be NULL in new code. 
+     * When tloc is NULL, the call cannot fail.
+     * 
+     * void srand(unsigned seed);
+     * 
+     * The srand() function uses the argument as a seed for a new sequence 
+     * of pseudo-random numbers to be returned by subsequent calls to rand(). 
+     * If srand() is then called with the same seed value, the sequence of 
+     * pseudo-random numbers shall be repeated.
+     * 
+     * 
+     * Note that srand() is not a cyrptographic pseudo-random numbers generator
+     */
     srand(time(NULL));
 
     // Initializing all the mutexes

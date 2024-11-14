@@ -9,12 +9,19 @@
 
 #define FUEL_CONSUMPTION_LIMIT 50
 
+
 // Definition of global shared resource/data for the stove fuel
 int stove_fuel[SHARED_RESOURCES] = {70, 50, 90, 80, 120};
 
+/**
+ * 
+ */
 void* chef_stove_thread()
 {
     int i, fuel_consumption;
+    /**
+     * TODO: The rand() function need not be thread-safe
+     */
     fuel_consumption = (rand() % FUEL_CONSUMPTION_LIMIT) + 1;
     printf("Thread id '%ld' requires %d-fuel\n", (unsigned long)pthread_self(), fuel_consumption);
 
@@ -48,7 +55,23 @@ void* chef_stove_thread()
         else if(i == (SHARED_RESOURCES - 1)) {
             // Wait for some time before attempting to obtain the lock on mutex
             printf("No available mutex, therefore, waiting ...\n");
-            sleep(0.5); // sleep for 500 milli-sec
+            /**
+             * int usleep(useconds_t usec);
+             * 
+             * The usleep() function suspends execution of the calling thread
+             * for (at least) usec microseconds.  The sleep may be lengthened
+             * slightly by any system activity or by the time spent processing
+             * the call or by the granularity of system timers.
+             * 
+             * The useconds_t is of type unsigned integer. It can accept a value
+             * anywhere from 0 to 999999 microseconds.
+             * 
+             * The usleep() function returns 0 on success.  On error, -1 is
+             * returned, with errno set to indicate the error.
+             * 
+             * For now, we are ignoring the return value of usleep()
+             */
+            usleep(500000); // sleep for 500 milli-sec or 0.5 sec
             i = 0;
         }
     }
