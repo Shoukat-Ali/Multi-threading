@@ -30,12 +30,19 @@ SRC_CHEFSTOVEMUTEX = $(addprefix $(SRC_DIR),chef_stove.c)
 MAIN_CHEFSTOVEMUTEX = $(addprefix $(MAIN_DIR),test_chef_stove.c)
 
 
+# Detached threads exmaple (DTCHTHRD)
+HDR_DTCHTHRD = $(addprefix $(HEADER_DIR),detached_threads.h)
+SRC_DTCHTHRD = $(addprefix $(SRC_DIR),detached_threads.c)
+MAIN_DTCHTHRD = $(addprefix $(MAIN_DIR),test_detached_threads.c)
+
+
 
 #Object files
 OBJS_STHRD = main_SThrd.o src_SThrd.o
 OBJS_LPARGTHRD = main_LPArgThrd.o src_LPArgThrd.o
 OBJS_MUTEXTHRD = main_MutexThrd.o src_MutexThrd.o
 OBJS_CHEFSTOVEMUTEX = main_ChefStoveMutex.o src_ChefStoveMutex.o
+OBJS_DTCHTHRD = main_DetachThrd.o src_DetachThrd.o
 
 
 # Simple Thread (STHRD)
@@ -84,6 +91,17 @@ test_ChefStoveMutex: $(OBJS_CHEFSTOVEMUTEX)
 	$(CC) $^ -o $@
 
 
+# Detached threads exmaple (DTCHTHRD)
+main_DetachThrd.o: $(MAIN_DTCHTHRD)
+	$(CC) $(CFLAGS) $< -o $@
+
+src_DetachThrd.o: $(SRC_DTCHTHRD) $(HDR_DTCHTHRD)
+	$(CC) $(CFLAGS) $< -o $@
+
+test_DetachThrd: $(OBJS_DTCHTHRD)
+	$(CC) $^ -o $@
+
+
 
 .PHONY : clean
 clean_SThrd:
@@ -97,3 +115,6 @@ clean_MutexThrd:
 
 clean_ChefStoveMutex:
 	rm test_ChefStoveMutex $(OBJS_CHEFSTOVEMUTEX)
+
+clean_DetachThrd:
+	rm test_DetachThrd $(OBJS_DTCHTHRD)
