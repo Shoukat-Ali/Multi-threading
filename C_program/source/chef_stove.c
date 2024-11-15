@@ -71,7 +71,10 @@ void* chef_stove_thread()
              * 
              * For now, we are ignoring the return value of usleep()
              */
-            usleep(500000); // sleep for 500 milli-sec or 0.5 sec
+            if(usleep(500000)) { 
+                // sleep for 500 milli-sec or 0.5 sec
+                perror("Failed, usleep()");
+            }
             i = 0;
         }
     }

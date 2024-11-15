@@ -12,8 +12,10 @@
 void* my_thrd() 
 {
     puts("Nothing interesting to do, therefore, sleep");
-    // Ignore the return value of usleep()
-    usleep(600000); // Sleep for 600 ms or 0.6-sec
+    // Sleep for 600 ms or 0.6-sec
+    if(usleep(600000)) {
+        perror("Failed, usleep()");
+    }
     puts("Finished execution");
     return NULL;
 }

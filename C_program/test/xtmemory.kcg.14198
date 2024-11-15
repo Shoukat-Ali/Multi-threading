@@ -1,0 +1,217 @@
+# callgrind format
+version: 1
+creator: xtree-1
+pid: 14198
+cmd: ./prog
+
+positions: line
+event: curB : currently allocated Bytes
+event: curBk : currently allocated Blocks
+event: totB : total allocated Bytes
+event: totBk : total allocated Blocks
+event: totFdB : total Freed Bytes
+event: totFdBk : total Freed Blocks
+events: curB  curBk  totB  totBk  totFdB  totFdBk 
+fl=(1) /home/ubuntu/github_repo/Multi-threading/C_program/test/test_chef_stove.c
+fn=(1) main
+53
+cfi=(2) ./nptl/./nptl/allocatestack.c
+cfn=(2) pthread_create@@GLIBC_2.34
+calls=0 429
+53 0 0 3536 13 0 0
+fl=(2)
+fn=(2)
+429
+cfi=(3) ./elf/../include/rtld-malloc.h
+cfn=(3) _dl_allocate_tls
+calls=0 44
+429 0 0 3536 13 0 0
+fl=(3)
+fn=(3)
+44 0 0 3536 13 0 0
+
+fl=(4) ./misc/../sysdeps/unix/sysv/linux/x86_64/clone.S
+fn=(4) clone
+100
+cfi=(5) ./nptl/./nptl/pthread_create.c
+cfn=(5) start_thread
+calls=0 447
+100 0 0 1024 1 0 0
+fl=(5)
+fn=(5)
+447
+cfi=(6) /usr/include/x86_64-linux-gnu/bits/stdio2.h
+cfn=(6) chef_stove_thread
+calls=0 86
+447 0 0 1024 1 0 0
+fl=(6)
+fn=(6)
+86
+cfi=(7) ./debug/./debug/printf_chk.c
+cfn=(7) __printf_chk
+calls=0 33
+86 0 0 1024 1 0 0
+fl=(7)
+fn=(7)
+33
+cfi=(8) ./stdio-common/./stdio-common/vfprintf-internal.c
+cfn=(8) __vfprintf_internal
+calls=0 1560
+33 0 0 1024 1 0 0
+fl=(8)
+fn=(8)
+1560
+cfi=(9) ./stdio-common/./stdio-common/printf_buffer_to_file.c
+cfn=(9) __printf_buffer_to_file_done
+calls=0 59
+1560 0 0 1024 1 0 0
+fl=(9)
+fn=(9)
+59
+cfi=(10) ./libio/./libio/fileops.c
+cfn=(10) _IO_file_xsputn@@GLIBC_2.2.5
+calls=0 1244
+59 0 0 1024 1 0 0
+fl=(10)
+fn=(10)
+1244
+cfi=(10)
+cfn=(11) _IO_file_overflow@@GLIBC_2.2.5
+calls=0 745
+1244 0 0 1024 1 0 0
+fl=(10)
+fn=(11)
+745
+cfi=(11) ./libio/./libio/genops.c
+cfn=(12) _IO_doallocbuf
+calls=0 347
+745 0 0 1024 1 0 0
+fl=(11)
+fn=(12)
+347
+cfi=(12) ./libio/./libio/filedoalloc.c
+cfn=(13) _IO_file_doallocate
+calls=0 101
+347 0 0 1024 1 0 0
+fl=(12)
+fn=(13)
+101 0 0 1024 1 0 0
+
+fl=(1)
+fn=(1)
+60
+cfi=(13) ./nptl/./nptl/pthread_join_common.c
+cfn=(14) __pthread_clockjoin_ex
+calls=0 125
+60 0 0 0 0 2448 9
+fl=(13)
+fn=(14)
+125
+cfi=(14) ./nptl/./nptl/nptl-stack.c
+cfn=(15) __nptl_deallocate_stack
+calls=0 107
+125 0 0 0 0 2448 9
+fl=(14)
+fn=(15)
+107
+cfi=(14)
+cfn=(16) __nptl_free_stacks
+calls=0 79
+107 0 0 0 0 2448 9
+fl=(14)
+fn=(16)
+79
+cfi=(3)
+cfn=(17) _dl_deallocate_tls
+calls=0 50
+79 0 0 0 0 2448 9
+fl=(3)
+fn=(17)
+50 0 0 0 0 2448 9
+
+fl=(15) ./csu/../sysdeps/nptl/libc_start_call_main.h
+fn=(18) (below main)
+74
+cfi=(16) ./stdlib/./stdlib/exit.c
+cfn=(19) exit
+calls=0 138
+74 0 0 0 0 1024 1
+fl=(16)
+fn=(19)
+138
+cfi=(16)
+cfn=(20) __run_exit_handlers
+calls=0 131
+138 0 0 0 0 1024 1
+fl=(16)
+fn=(20)
+131
+cfi=(17) UnknownFile???
+cfn=(21) _vgnU_freeres
+calls=0 0
+131 0 0 0 0 1024 1
+fl=(17)
+fn=(21)
+0
+cfi=(18) ./malloc/./malloc/set-freeres.c
+cfn=(22) __libc_freeres
+calls=0 146
+0 0 0 0 0 1024 1
+fl=(18)
+fn=(22)
+146
+cfi=(11)
+cfn=(23) __libio_freemem
+calls=0 833
+146 0 0 0 0 1024 1
+fl=(11)
+fn=(23)
+833 0 0 0 0 1024 1
+
+fl=(15)
+fn=(18)
+74
+cfi=(16)
+cfn=(19)
+calls=0 138
+74 0 0 0 0 1088 4
+fl=(16)
+fn=(19)
+138
+cfi=(16)
+cfn=(20)
+calls=0 131
+138 0 0 0 0 1088 4
+fl=(16)
+fn=(20)
+131
+cfi=(17)
+cfn=(21)
+calls=0 0
+131 0 0 0 0 1088 4
+fl=(17)
+fn=(21)
+0
+cfi=(18)
+cfn=(22)
+calls=0 181
+0 0 0 0 0 1088 4
+fl=(18)
+fn=(22)
+181
+cfi=(14)
+cfn=(16)
+calls=0 79
+181 0 0 0 0 1088 4
+fl=(14)
+fn=(16)
+79
+cfi=(3)
+cfn=(17)
+calls=0 50
+79 0 0 0 0 1088 4
+fl=(3)
+fn=(17)
+50 0 0 0 0 1088 4
+
+totals: 0 0 4560 14 4560 14
