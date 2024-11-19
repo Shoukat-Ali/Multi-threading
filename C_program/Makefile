@@ -36,6 +36,12 @@ SRC_DTCHTHRD = $(addprefix $(SRC_DIR),detached_threads.c)
 MAIN_DTCHTHRD = $(addprefix $(MAIN_DIR),test_detached_threads.c)
 
 
+# Simple Producer and Consumer using mutex and conditional variable exmaple (SPRODCOSM)
+HDR_SPRODCOSM = $(addprefix $(HEADER_DIR),simple_prod_cosm.h)
+SRC_SPRODCOSM = $(addprefix $(SRC_DIR),simple_prod_cosm.c)
+MAIN_SPRODCOSM = $(addprefix $(MAIN_DIR),test_simple_prod_cosm.c)
+
+
 
 #Object files
 OBJS_STHRD = main_SThrd.o src_SThrd.o
@@ -43,6 +49,8 @@ OBJS_LPARGTHRD = main_LPArgThrd.o src_LPArgThrd.o
 OBJS_MUTEXTHRD = main_MutexThrd.o src_MutexThrd.o
 OBJS_CHEFSTOVEMUTEX = main_ChefStoveMutex.o src_ChefStoveMutex.o
 OBJS_DTCHTHRD = main_DetachThrd.o src_DetachThrd.o
+OBJS_SPRODCOSM = main_SProdCosm.o src_SProdCosm.o
+
 
 
 # Simple Thread (STHRD)
@@ -102,6 +110,18 @@ test_DetachThrd: $(OBJS_DTCHTHRD)
 	$(CC) $^ -o $@
 
 
+# Simple Producer and Consumer using mutex and conditional variable exmaple (SPRODCOSM)
+main_SProdCosm.o: $(MAIN_SPRODCOSM)
+	$(CC) $(CFLAGS) $< -o $@
+
+src_SProdCosm.o: $(SRC_SPRODCOSM) $(HDR_SPRODCOSM)
+	$(CC) $(CFLAGS) $< -o $@
+
+test_SProdCosm: $(OBJS_SPRODCOSM)
+	$(CC) $^ -o $@
+
+
+
 
 .PHONY : clean
 clean_SThrd:
@@ -118,3 +138,6 @@ clean_ChefStoveMutex:
 
 clean_DetachThrd:
 	rm test_DetachThrd $(OBJS_DTCHTHRD)
+
+clean_SProdCosm:
+	rm test_SProdCosm $(OBJS_SPRODCOSM)
