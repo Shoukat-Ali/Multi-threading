@@ -2,15 +2,11 @@
  * 
 */
 
+#include <stdio.h>
 #include <unistd.h>
 #include <time.h>
 #include "../header/simple_prod_cosm.h"
 
-
-#define PRODUCTION 50
-#define CONSUMPTION 60  // Must be always less than FOOD_THRESHOLD
-#define FOOD_THRESHOLD 100
-#define ROUND 10
 
 
 int food = 0;   // Global variable
@@ -36,11 +32,12 @@ pthread_cond_t food_cond;   // mutex conditional variable
 void* producer()
 {
     int i;
+    // printf("Starting:: Producer thread id: %lu\n", (unsigned long)pthread_self());
     for(i = 0; i < ROUND; ++i) {
         if(!pthread_mutex_lock(&food_mutex)) {
             // Obtained lock and owned, therefore, update shared resource
             food += PRODUCTION;
-            printf("Food production: %d\n", food);
+            printf("Total food production:: %d  (thread id: %lu)\n", food, (unsigned long)pthread_self());
             if(pthread_mutex_unlock(&food_mutex)) {
                 // Reporting error
                 perror("Error, producer thread failed to release food mutex");
@@ -75,6 +72,7 @@ void* producer()
             perror("Failed, usleep()");
         }
     }
+    printf("Ending:: Producer thread id: %lu\n", (unsigned long)pthread_self());
     return NULL;
 }
 
@@ -86,10 +84,11 @@ void* producer()
 */
 void* consumer()
 {
+    // printf("Starting:: Consumer thread id: %lu\n", (unsigned long)pthread_self());
     if(!pthread_mutex_lock(&food_mutex)) { 
         // Obtained lock and owned
         while(food < FOOD_THRESHOLD) {
-            printf("Not enough food to consume\n");
+            printf("Not enough food to consume (thread id: %lu)\n", (unsigned long)pthread_self());
             /**
              * int pthread_cond_wait(pthread_cond_t *cond, pthread_mutex_t *mutex);
              * 
@@ -119,5 +118,6 @@ void* consumer()
     else {
         perror("Error, consumer thread failed to obtain food mutex");
     }
+    printf("Ending:: Consumer thread id: %lu\n", (unsigned long)pthread_self());
     return NULL;
 }
