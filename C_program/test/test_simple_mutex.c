@@ -1,5 +1,6 @@
 /**
- * A multi-threading program that uses mutex
+ * Testing a simple multi-threading (joinable threads) program that uses mutex on Ubuntu using pthread library.
+ * 
  * 
  * gcc -Wall -Werror -g3 -O3 ../source/simple_mutex.c test_simple_mutex.c -o prog 
 */

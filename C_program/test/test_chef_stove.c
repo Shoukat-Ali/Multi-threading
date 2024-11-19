@@ -1,5 +1,5 @@
 /**
- * Chef and stove multi-threading program that uses mutex
+ * Testing Chef and stove multi-threading (joinable threads) program that uses mutex on Ubuntu using pthread library.
  * 
  * gcc -Wall -Werror -g3 -O3 ../source/chef_stove.c test_chef_stove.c -o prog
  * 
