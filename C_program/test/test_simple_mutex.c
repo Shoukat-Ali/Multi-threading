@@ -1,6 +1,8 @@
 /**
  * Testing a simple multi-threading (joinable threads) program that uses mutex on Ubuntu using pthread library.
- * 
+ * A mutex is a mutual exclusion lock. Only one thread can hold the lock.
+ * Mutexes are used to protect data or other resources from concurrent access. 
+ * A mutex has attributes, which specify the characteristics of the mutex. 
  * 
  * gcc -Wall -Werror -g3 -O3 ../source/simple_mutex.c test_simple_mutex.c -o prog 
 */
