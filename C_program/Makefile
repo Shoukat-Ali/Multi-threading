@@ -42,6 +42,12 @@ SRC_SPRODCOSM = $(addprefix $(SRC_DIR),simple_prod_cosm.c)
 MAIN_SPRODCOSM = $(addprefix $(MAIN_DIR),test_simple_prod_cosm.c)
 
 
+# Producer and Consumer using mutex and broadcasting conditional variable exmaple (BRDPRODCOSM)
+HDR_BRDPRODCOSM = $(addprefix $(HEADER_DIR),broadcast_prod_cosm.h)
+SRC_BRDPRODCOSM = $(addprefix $(SRC_DIR),broadcast_prod_cosm.c)
+MAIN_BRDPRODCOSM = $(addprefix $(MAIN_DIR),test_broadcast_prod_cosm.c)
+
+
 
 #Object files
 OBJS_STHRD = main_SThrd.o src_SThrd.o
@@ -50,6 +56,7 @@ OBJS_MUTEXTHRD = main_MutexThrd.o src_MutexThrd.o
 OBJS_CHEFSTOVEMUTEX = main_ChefStoveMutex.o src_ChefStoveMutex.o
 OBJS_DTCHTHRD = main_DetachThrd.o src_DetachThrd.o
 OBJS_SPRODCOSM = main_SProdCosm.o src_SProdCosm.o
+OBJS_BRDPRODCOSM = main_BrdProdCosm.o src_BrdProdCosm.o
 
 
 
@@ -121,6 +128,17 @@ test_SProdCosm: $(OBJS_SPRODCOSM)
 	$(CC) $^ -o $@
 
 
+# Producer and Consumer using mutex and broadcasting conditional variable exmaple (BRDPRODCOSM)
+main_BrdProdCosm.o: $(MAIN_BRDPRODCOSM)
+	$(CC) $(CFLAGS) $< -o $@
+
+src_BrdProdCosm.o: $(SRC_BRDPRODCOSM) $(HDR_BRDPRODCOSM)
+	$(CC) $(CFLAGS) $< -o $@
+
+test_BrdProdCosm: $(OBJS_BRDPRODCOSM)
+	$(CC) $^ -o $@
+
+
 
 
 .PHONY : clean
@@ -141,3 +159,6 @@ clean_DetachThrd:
 
 clean_SProdCosm:
 	rm test_SProdCosm $(OBJS_SPRODCOSM)
+
+clean_BrdProdCosm:
+	rm test_BrdProdCosm $(OBJS_BRDPRODCOSM)
