@@ -85,3 +85,23 @@ void* consumer()
     printf("Ending:: Consumer thread id: %lu\n", (unsigned long)pthread_self());
     return NULL;
 }
+
+
+/**
+ * The functions attempts to clean-up the utilized resources.
+ * If the clean-up was not successful, then the error is reported
+ * 
+ */
+void clean_up()
+{
+    if(pthread_cond_destroy(&food_cond)) {
+        // Destroying conditional variable (food_cond) caused an error
+        perror("Error, failed to destroy conditional variable (food_cond)");
+    }
+
+    if(pthread_mutex_destroy(&food_mutex)) {
+        // Destroying mutex (food_mutex) caused an error
+        perror("Error, failed to destroy mutex (food_mutex)");
+    }
+
+}

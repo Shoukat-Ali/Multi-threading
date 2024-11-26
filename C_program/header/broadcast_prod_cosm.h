@@ -13,8 +13,7 @@
 #define ERR_COSM_THRD_CREATE 3
 #define ERR_PROD_THRD_CREATE 4
 #define ERR_THRD_JOIN 5
-#define ERR_COND_VAR_DESTORY 6
-#define ERR_MUTEX_DESTORY 7
+
 
 #define PRODUCTION 50
 #define FOOD_THRESHOLD 100
@@ -37,5 +36,11 @@ void* producer();
  * Thread for consuming food if more than some threshold  
 */
 void* consumer();
+
+/**
+ * The functions attempts to clean-up the utilized resources
+ * 
+ */
+void clean_up();
 
 #endif

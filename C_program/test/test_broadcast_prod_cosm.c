@@ -10,7 +10,7 @@
 #include "../header/broadcast_prod_cosm.h"
 
 
-#define NUM_THREADS 5 // For now, we have only producer and consumer
+#define NUM_THREADS 5 // Producer and consumer threads
 
 
 int main()
@@ -28,6 +28,8 @@ int main()
     if(pthread_cond_init(&food_cond, NULL)) {
         // Conditional variable initialization of food_cond failed
         perror("Error, failed to initialize the conditional variable (food_cond)");
+        // Attempt to destroy initialized mutex, therefore, ignoring return value
+        pthread_mutex_destroy(&food_mutex);
         return ERR_COND_VAR_INIT;
     }
 
@@ -36,6 +38,8 @@ int main()
             // Creating consumer thread
             if(pthread_create(thrd + i, NULL, &consumer, NULL)) {
                 perror("Error, consumer thread creation failed");
+                // Attempt to clean-up the resources
+                clean_up();
                 return ERR_COSM_THRD_CREATE;
             }
         }
@@ -43,6 +47,8 @@ int main()
             // Creating producer thread
             if(pthread_create(thrd + i, NULL, &producer, NULL)) {
                 perror("Error, producer thread creation failed");
+                // Attempt to clean-up the resources
+                clean_up();
                 return ERR_PROD_THRD_CREATE;
             }
         }
@@ -51,20 +57,13 @@ int main()
     for(i = 0; i < NUM_THREADS; ++i) {
         if(pthread_join(thrd[i], NULL)) {
             perror("Error, (joinable) thread termination failed");
+            // Attempt to clean-up the resources
+            clean_up();
             return ERR_THRD_JOIN;
         }
     }
 
-    if(pthread_cond_destroy(&food_cond)) {
-        // Destroying conditional variable (food_cond) caused an error
-        perror("Error, failed to destroy conditional variable (food_cond)");
-        return ERR_COND_VAR_DESTORY;
-    }
-
-    if(pthread_mutex_destroy(&food_mutex)) {
-        // Destroying mutex (food_mutex) caused an error
-        perror("Error, failed to destroy mutex (food_mutex)");
-        return ERR_MUTEX_DESTORY;
-    }
+    // Attempt to clean-up the resources
+    clean_up();
     return 0;
 }
