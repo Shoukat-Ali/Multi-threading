@@ -48,6 +48,12 @@ SRC_BRDPRODCOSM = $(addprefix $(SRC_DIR),broadcast_prod_cosm.c)
 MAIN_BRDPRODCOSM = $(addprefix $(MAIN_DIR),test_broadcast_prod_cosm.c)
 
 
+# Dice rolling using barrier for synchronization exmaple (BRRDICEROLL)
+HDR_BRRDICEROLL = $(addprefix $(HEADER_DIR),barrier_dice.h)
+SRC_BRRDICEROLL = $(addprefix $(SRC_DIR),barrier_dice.c)
+MAIN_BRRDICEROLL = $(addprefix $(MAIN_DIR),test_barrier_dice.c)
+
+
 
 #Object files
 OBJS_STHRD = main_SThrd.o src_SThrd.o
@@ -57,6 +63,7 @@ OBJS_CHEFSTOVEMUTEX = main_ChefStoveMutex.o src_ChefStoveMutex.o
 OBJS_DTCHTHRD = main_DetachThrd.o src_DetachThrd.o
 OBJS_SPRODCOSM = main_SProdCosm.o src_SProdCosm.o
 OBJS_BRDPRODCOSM = main_BrdProdCosm.o src_BrdProdCosm.o
+OBJS_BRRDICEROLL = main_BrrDiceRoll.o src_BrrDiceRoll.o
 
 
 
@@ -139,6 +146,17 @@ test_BrdProdCosm: $(OBJS_BRDPRODCOSM)
 	$(CC) $^ -o $@
 
 
+# Dice rolling using barrier for synchronization exmaple (BRRDICEROLL)
+main_BrrDiceRoll.o: $(MAIN_BRRDICEROLL)
+	$(CC) $(CFLAGS) $< -o $@
+
+src_BrrDiceRoll.o: $(SRC_BRRDICEROLL) $(HDR_BRRDICEROLL)
+	$(CC) $(CFLAGS) $< -o $@
+
+test_BrrDiceRoll: $(OBJS_BRRDICEROLL)
+	$(CC) $^ -o $@
+
+
 
 
 .PHONY : clean
@@ -162,3 +180,6 @@ clean_SProdCosm:
 
 clean_BrdProdCosm:
 	rm test_BrdProdCosm $(OBJS_BRDPRODCOSM)
+
+clean_BrrDiceRoll:
+	rm test_BrrDiceRoll $(OBJS_BRRDICEROLL)

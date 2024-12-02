@@ -21,6 +21,7 @@ int winnerStatus[NUM_THREAD] = {0};     // Definition: 1 is winner, 0 is losser
 pthread_barrier_t diceBarrier;          // Definition: barrier for rolling dice
 pthread_barrier_t decisionBarrier;      // Definition: barrier for deciding winner(s)
 
+
 /**
  * The function attempts to deallocate the memory
  */
