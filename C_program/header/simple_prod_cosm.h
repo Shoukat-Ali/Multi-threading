@@ -42,7 +42,7 @@ void* consumer();
 
 /**
  * The functions attempts to clean-up the utilized resources.
- * If the clean-up was not successful, then the error is reported
+ * If the clean up was not successful, then the error is reported
  * 
  */
 void clean_up();
