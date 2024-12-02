@@ -38,7 +38,7 @@ int main()
             // Creating consumer thread
             if(pthread_create(thrd + i, NULL, &consumer, NULL)) {
                 perror("Error, consumer thread creation failed");
-                // Attempt to clean-up the resources
+                // Attempt to clean up the resources
                 clean_up();
                 return ERR_COSM_THRD_CREATE;
             }
@@ -47,7 +47,7 @@ int main()
             // Creating producer thread
             if(pthread_create(thrd + i, NULL, &producer, NULL)) {
                 perror("Error, producer thread creation failed");
-                // Attempt to clean-up the resources
+                // Attempt to clean up the resources
                 clean_up();
                 return ERR_PROD_THRD_CREATE;
             }
@@ -57,13 +57,13 @@ int main()
     for(i = 0; i < NUM_THREADS; ++i) {
         if(pthread_join(thrd[i], NULL)) {
             perror("Error, (joinable) thread termination failed");
-            // Attempt to clean-up the resources
+            // Attempt to clean up the resources
             clean_up();
             return ERR_THRD_JOIN;
         }
     }
 
-    // Attempt to clean-up the resources
+    // Attempt to clean up the resources
     clean_up();
     return 0;
 }

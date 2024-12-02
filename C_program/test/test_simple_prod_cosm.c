@@ -44,6 +44,8 @@ int main()
     if(pthread_cond_init(&food_cond, NULL)) {
         // Conditional variable initialization of food_cond failed
         perror("Error, failed to initialize the conditional variable (food_cond)");
+        // Attempt to destroy initialized mutex, therefore, ignoring return value
+        pthread_mutex_destroy(&food_mutex);
         return ERR_COND_VAR_INIT;
     }
 
@@ -52,6 +54,8 @@ int main()
             // Creating consumer thread
             if(pthread_create(thrd + i, NULL, &consumer, NULL)) {
                 perror("Error, consumer thread creation failed");
+                // Attempt to clean up the resources
+                clean_up();
                 return ERR_COSM_THRD_CREATE;
             }
         }
@@ -59,6 +63,8 @@ int main()
             // Creating producer thread
             if(pthread_create(thrd + i, NULL, &producer, NULL)) {
                 perror("Error, producer thread creation failed");
+                // Attempt to clean up the resources
+                clean_up();
                 return ERR_PROD_THRD_CREATE;
             }
         }
@@ -67,32 +73,13 @@ int main()
     for(i = 0; i < NUM_THREADS; ++i) {
         if(pthread_join(thrd[i], NULL)) {
             perror("Error, thread termination failed");
+            // Attempt to clean up the resources
+            clean_up();
             return ERR_THRD_JOIN;
         }
     }
 
-    /**
-     * int pthread_cond_destroy(pthread_cond_t *cond);
-     * 
-     * The pthread_cond_destroy() destroys a condition variable, freeing the 
-     * resources it might hold.  No threads must be waiting on the condition variable 
-     * on entrance to pthread_cond_destroy. In the LinuxThreads implementation, no resources 
-     * are associated with condition variables, thus pthread_cond_destroy actually does
-     * nothing except checking that the condition has no waiting threads.
-     * 
-     * On successful, a value of zero is returned. Otherwise, an error number is returned 
-     * to indicate the error.
-     */
-    if(pthread_cond_destroy(&food_cond)) {
-        // Destroying conditional variable (food_cond) caused an error
-        perror("Error, failed to destroy conditional variable (food_cond)");
-        return ERR_COND_VAR_DESTORY;
-    }
-
-    if(pthread_mutex_destroy(&food_mutex)) {
-        // Destroying mutex (food_mutex) caused an error
-        perror("Error, failed to destroy mutex (food_mutex)");
-        return ERR_MUTEX_DESTORY;
-    }
+    // Attempt to clean up the resources
+    clean_up();
     return 0;
 }
