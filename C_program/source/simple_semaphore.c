@@ -3,6 +3,7 @@
 */
 #include <stdio.h>
 #include <unistd.h>
+#include <stdlib.h>
 #include "../header/simple_semaphore.h"
 
 
@@ -78,11 +79,6 @@ void* my_thrd(void* indx)
  */
 void clean_up()
 {
-    for(int i = 0; i < NUM_THREAD; i++) {
-        free(my_queue[i]);
-        my_queue[i] = NULL;
-    }
-
     /**
      * int sem_destroy(sem_t *sem);
      * 

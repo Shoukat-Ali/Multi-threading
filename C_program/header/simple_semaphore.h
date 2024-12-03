@@ -6,6 +6,7 @@
 #define SEMAPHORE_H
 
 #include <stdio.h>
+#include <pthread.h>
 #include <semaphore.h>  // For semaphore
 
 /**
@@ -29,8 +30,6 @@ extern sem_t semUser; // Declaration
 #define ERR_THRD_CREATE 2
 #define ERR_THRD_JOIN 3
 
-
-int* my_queue[NUM_THREAD] = {NULL};  // Array of pointers
 
 
 /**
