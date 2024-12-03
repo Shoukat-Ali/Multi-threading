@@ -19,6 +19,8 @@ extern pthread_barrier_t decisionBarrier;   // barrier for deciding winner(s)
 #define ERR_THRD_JOIN 3
 #define ERR_BARRIER_WAIT 4
 
+#define DICE_LIMIT 6        // Limit the range of dice values to [0-6]
+#define NUM_THREAD 11       // The number of threads and index range
 
 /**
  * 

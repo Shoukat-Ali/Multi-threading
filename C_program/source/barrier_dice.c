@@ -5,15 +5,27 @@
 #include <stdlib.h>
 #include "../header/barrier_dice.h"
 
-#define DICE_LIMIT 6
 
 /**
  * 
  */
 void* roll_dice(void* indx)
 {
-    int index = *(int*) indx;
-    int ret;
+    int ret, index = 0;
+
+    // Checking if void* is null
+    if (!indx) {
+        printf("Error, Null pointer passed to thread id '%ld'\n", (unsigned long)pthread_self());
+        return NULL;
+    }
+
+    // Casting indx to integer pointer and de-referencing to display the content
+    index = *(int*) indx;
+    // Validating the array index
+    if (index < 0 || index >= NUM_THREAD) {
+        printf("Error, invalid array index to thread id '%ld'\n", (unsigned long)pthread_self());
+        return NULL;
+    }
     
     while (1) {
         // diceValue[] is shared globally
@@ -48,13 +60,13 @@ void* roll_dice(void* indx)
                 printf("Error, diceBarrier wait in thread id '%ld'\n", (unsigned long)pthread_self());
                 return NULL;
         }
-        //printf("Thread id '%ld' dice barrier over\n", syscall(SYS_gettid));
+        
         ret = pthread_barrier_wait(&decisionBarrier);
         if(ret && ret != PTHREAD_BARRIER_SERIAL_THREAD) {
                 printf("Error, decisionBarrier wait in thread id '%ld'\n", (unsigned long)pthread_self());
                 return NULL;
         }
-        //printf("Thread id '%ld' decision barrier over\n", syscall(SYS_gettid));
+        
         // winnerStatus[] is shared globally
         if (winnerStatus[index] == 1) 
             printf("Winner, Thread id '%ld' rolled %d\n", (unsigned long)pthread_self(), diceValue[index]);

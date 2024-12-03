@@ -11,10 +11,9 @@
 #include <time.h>
 #include "../header/barrier_dice.h"
 
-#define NUM_THREAD 11
 
 
-static int *indx[NUM_THREAD] = {0};
+static int *indx[NUM_THREAD] = {NULL};  // Array of pointers
 int diceValue[NUM_THREAD];              // Definition: Storing the result of each dice roll by a thread
 int winnerStatus[NUM_THREAD] = {0};     // Definition: 1 is winner, 0 is losser
 
@@ -25,9 +24,9 @@ pthread_barrier_t decisionBarrier;      // Definition: barrier for deciding winn
 /**
  * The function attempts to deallocate the memory
  */
-void deallocate_mem(int last) 
+void deallocate_mem(int bound) 
 {
-    for(int i = 0; i < last; i++) {
+    for(int i = 0; i < bound; i++) {
         free(indx[i]);
         indx[i] = NULL;
     }
@@ -37,7 +36,6 @@ void deallocate_mem(int last)
 int main()
 {
     pthread_t thrd[NUM_THREAD];
-    // int i, *indx[NUM_THREAD];
     int i;
     int max, ret;
     srand(time(NULL));
@@ -121,14 +119,12 @@ int main()
 
         // Setting the winner(s) using winnerStatus
         for (i = 0; i < NUM_THREAD; i++) {
-            if (diceValue[i] == max)
-                winnerStatus[i] = 1;
-            else
-                winnerStatus[i] = 0;
+            winnerStatus[i] = (diceValue[i] == max) ? 1 : 0;
         }
+
         //puts("Main thread sleeps after dice barrier\n");
-        if(usleep(600000)) {
-            perror("Failed, usleep()");
+        if(usleep(999999)) {
+            perror("Error, usleep() failed");
         }
         puts("****** Starting new round ******\n");
         //puts("Main thread waiting for decision barrier\n");
