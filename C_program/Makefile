@@ -54,6 +54,12 @@ SRC_BRRDICEROLL = $(addprefix $(SRC_DIR),barrier_dice.c)
 MAIN_BRRDICEROLL = $(addprefix $(MAIN_DIR),test_barrier_dice.c)
 
 
+# Simple Semaphore exmaple (SSEMAPHR)
+HDR_SSEMAPHR = $(addprefix $(HEADER_DIR),simple_semaphore.h)
+SRC_SSEMAPHR = $(addprefix $(SRC_DIR),simple_semaphore.c)
+MAIN_SSEMAPHR = $(addprefix $(MAIN_DIR),test_simple_semaphore.c)
+
+
 
 #Object files
 OBJS_STHRD = main_SThrd.o src_SThrd.o
@@ -64,6 +70,7 @@ OBJS_DTCHTHRD = main_DetachThrd.o src_DetachThrd.o
 OBJS_SPRODCOSM = main_SProdCosm.o src_SProdCosm.o
 OBJS_BRDPRODCOSM = main_BrdProdCosm.o src_BrdProdCosm.o
 OBJS_BRRDICEROLL = main_BrrDiceRoll.o src_BrrDiceRoll.o
+OBJS_SSEMAPHR = main_SSemaphore.o src_SSemaphore.o
 
 
 
@@ -157,6 +164,18 @@ test_BrrDiceRoll: $(OBJS_BRRDICEROLL)
 	$(CC) $^ -o $@
 
 
+# Simple Semaphore exmaple (SSEMAPHR)
+main_SSemaphore.o: $(MAIN_SSEMAPHR)
+	$(CC) $(CFLAGS) $< -o $@
+
+src_SSemaphore.o: $(SRC_SSEMAPHR) $(HDR_SSEMAPHR)
+	$(CC) $(CFLAGS) $< -o $@
+
+test_SSemaphore: $(OBJS_SSEMAPHR)
+	$(CC) $^ -o $@
+
+
+
 
 
 .PHONY : clean
@@ -183,3 +202,6 @@ clean_BrdProdCosm:
 
 clean_BrrDiceRoll:
 	rm test_BrrDiceRoll $(OBJS_BRRDICEROLL)
+
+clean_SSemaphore:
+	rm test_SSemaphore $(OBJS_SSEMAPHR)
