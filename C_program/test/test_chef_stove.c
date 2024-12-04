@@ -50,7 +50,7 @@ int main()
     }
     // Creating threads
     for(i = 0; i < NUM_THREAD; ++i) {
-        if(pthread_create(thrd + i, NULL, &chef_stove_thread, NULL)) {
+        if(pthread_create(thrd + i, NULL, chef_stove_thread, NULL)) {
             perror("Failed to create a thread");
             return ERR_THRD_CREATE;
         }

@@ -84,7 +84,7 @@ int main()
         // Memory allocation on heap
         indx[i] = malloc(sizeof(*(indx[i])));
         *(indx[i]) = i;
-        if (pthread_create(thrd + i, NULL, &roll_dice, (void*) indx[i])) {
+        if (pthread_create(thrd + i, NULL, roll_dice, (void*) indx[i])) {
             perror("Error, thread creation failed");
             deallocate_mem(i + 1);
             // Attempt to clean up resources by destroying barriers

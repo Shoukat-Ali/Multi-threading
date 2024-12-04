@@ -61,7 +61,7 @@ int main()
     }
     
     for(i = 0; i < NUM_THREAD; i++) {
-        if(pthread_create(thrd + i, &detachedThread, &my_thrd, NULL) != 0) {
+        if(pthread_create(thrd + i, &detachedThread, my_thrd, NULL) != 0) {
             perror("Thread creation failed");
             // Attempt to destroy the thread attribute object
             // Here, we ignore the return value from pthread_attr_destroy()

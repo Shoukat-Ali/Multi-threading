@@ -33,17 +33,17 @@ int main()
      * On success, pthread_create() returns 0; on error, it returns an error number, 
      * and the contents of *thread are undefined.
      */
-    if(pthread_create(&t1, NULL, &my_thread1, NULL) != 0) {
+    if(pthread_create(&t1, NULL, my_thread1, NULL) != 0) {
         perror("Failed to create thread t1");
         return ERR_THRD_CREATE;
     }
 
-    if(pthread_create(&t2, NULL, &my_thread2, "Testing argument") != 0) {
+    if(pthread_create(&t2, NULL, my_thread2, "Testing argument") != 0) {
         perror("Failed to create thread t2");
         return ERR_THRD_CREATE;
     }
 
-    if(pthread_create(&t3, NULL, &my_thread2, NULL) != 0) {
+    if(pthread_create(&t3, NULL, my_thread2, NULL) != 0) {
         perror("Failed to create thread t3");
         return ERR_THRD_CREATE;
     }

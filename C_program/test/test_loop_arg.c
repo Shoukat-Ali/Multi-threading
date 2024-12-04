@@ -23,7 +23,7 @@ int main()
 
     for(i = 0; i < NUM_THREADS; ++i) {
         // Note that the argument passed to thread is not shared
-        if(pthread_create(thrd + i, NULL, &display_prime, primes + i)) {
+        if(pthread_create(thrd + i, NULL, display_prime, &primes[i])) {
             perror("Thread creation failed");
             /**
              * What happens to created threads when main() returns?

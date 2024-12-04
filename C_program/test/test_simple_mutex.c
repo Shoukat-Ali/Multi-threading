@@ -46,7 +46,7 @@ int main()
     // Successful mutex initialization
     for(i = 0; i < NUM_THREADS; ++i) {
         // starting a new thread within the process
-        if(pthread_create(thrd + i, NULL, &simple_thread, NULL)) {
+        if(pthread_create(thrd + i, NULL, simple_thread, NULL)) {
             printf("Thread no. %d creation failed\n", i + 1);
             return ERR_THRD_CREATE;
         }

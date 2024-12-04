@@ -40,7 +40,10 @@ void* my_thread2(void* arg)
         }
     }
     printf("Starting thread with arg (%s)\n", msg);
-    sleep(2);
+    // Sleeping for nearly a minute
+    if(usleep(999999)) {
+        perror("Error, usleep() failed");
+    }
     printf("Ending thread with arg (%s)\n", msg);
     return NULL;
 }

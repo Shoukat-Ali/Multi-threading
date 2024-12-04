@@ -52,7 +52,7 @@ int main()
     for(i = 0; i < NUM_THREADS; ++i) {
         if(i < (NUM_THREADS - 1)) {
             // Creating consumer thread
-            if(pthread_create(thrd + i, NULL, &consumer, NULL)) {
+            if(pthread_create(thrd + i, NULL, consumer, NULL)) {
                 perror("Error, consumer thread creation failed");
                 // Attempt to clean up the resources
                 clean_up();
@@ -61,7 +61,7 @@ int main()
         }
         else{
             // Creating producer thread
-            if(pthread_create(thrd + i, NULL, &producer, NULL)) {
+            if(pthread_create(thrd + i, NULL, producer, NULL)) {
                 perror("Error, producer thread creation failed");
                 // Attempt to clean up the resources
                 clean_up();

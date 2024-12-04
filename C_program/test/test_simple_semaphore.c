@@ -49,7 +49,7 @@ int main()
     
     for (i = 0; i < NUM_THREAD; i++) {
         my_queue[i] = i;
-        if (pthread_create(thrd + i, NULL, &my_thrd, my_queue + i)) {
+        if (pthread_create(thrd + i, NULL, my_thrd, &my_queue[i])) {
             perror("Error, thread creation failed");
             // Attempt to destroy initialized semaphore
             clean_up();
