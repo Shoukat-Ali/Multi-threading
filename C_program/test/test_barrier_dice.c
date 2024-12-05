@@ -41,6 +41,7 @@ int main()
     int i;
     int max, ret = 0;
     srand(time(NULL));
+    int count = 0;
     
     // Initializing required resources
     if((ret = initialize())) {
@@ -62,7 +63,8 @@ int main()
         }
     }
 
-    while (1) {
+    while (count < NUM_ROUNDS) {
+        count++;
         //printf("Main thread waiting for dice barrier\n");
         /**
          * block until the required number of threads have called pthread_barrier_wait()
