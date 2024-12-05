@@ -14,8 +14,10 @@
 
 
 static int *indx[NUM_THREAD] = {NULL};  // Array of pointers
-int diceValue[NUM_THREAD];              // Definition: Storing the result of each dice roll by a thread
+int diceValue[NUM_THREAD] = {0};        // Definition: Storing the result of each dice roll by a thread
 int winnerStatus[NUM_THREAD] = {0};     // Definition: 1 is winner, 0 is losser
+pthread_mutex_t mLock;                   // Definition: To lock shared resource(s)
+
 
 pthread_barrier_t diceBarrier;          // Definition: barrier for rolling dice
 pthread_barrier_t decisionBarrier;      // Definition: barrier for deciding winner(s)
@@ -37,46 +39,13 @@ int main()
 {
     pthread_t thrd[NUM_THREAD];
     int i;
-    int max, ret;
+    int max, ret = 0;
     srand(time(NULL));
     
-    // Initializing barriers
-    // For threads count, main plus other threads
-    /**
-     * int pthread_barrier_init(pthread_barrier_t *restrict barrier,
-                                const pthread_barrierattr_t *restrict attr, 
-                                unsigned count); 
-     * 
-     * The pthread_barrier_init() function shall allocate any resources required 
-     * to use the barrier referenced by barrier and shall initialize the barrier 
-     * with attributes referenced by attr. If attr is NULL, the default barrier 
-     * attributes shall be used; the effect is the same as passing the address 
-     * of a default barrier attributes object. The results are undefined 
-     * if pthread_barrier_init() is called when any thread is blocked on the barrier 
-     * (that is, has not returned from the pthread_barrier_wait() call). 
-     * The results are undefined if a barrier is used without first being initialized. 
-     * The results are undefined if pthread_barrier_init() is called specifying an 
-     * already initialized barrier. The count argument specifies the number of threads 
-     * that must call pthread_barrier_wait() before any of them successfully return from the call. 
-     * The value specified by count must be greater than zero. 
-     * 
-     * If the pthread_barrier_init() function fails, the barrier shall not be initialized 
-     * and the contents of barrier are undefined.
-     * 
-     * On successful completion, the function returns zero; 
-     * otherwise, an error number is returned to indicate the error.  
-     * 
-     */
-    if(pthread_barrier_init(&diceBarrier, NULL, NUM_THREAD + 1)) {
-        perror("Error, failed to initialize diceBarrier");
-        return ERR_BARRIER_INIT;
-    }
-    // Initializing decision barrier
-    if(pthread_barrier_init(&decisionBarrier, NULL, NUM_THREAD + 1)) {
-        perror("Error, failed to initialize decisionBarrier");
-        // Attempt to destroy the diceBarrier while ignoring the return value
-        pthread_barrier_destroy(&diceBarrier); 
-        return ERR_BARRIER_INIT;
+    // Initializing required resources
+    if((ret = initialize())) {
+        printf("Error, initialization failed with error number: %i\n", ret);
+        return ret;
     }
 
     // Creating threads
@@ -84,7 +53,7 @@ int main()
         // Memory allocation on heap
         indx[i] = malloc(sizeof(*(indx[i])));
         *(indx[i]) = i;
-        if (pthread_create(thrd + i, NULL, roll_dice, (void*) indx[i])) {
+        if (pthread_create(thrd + i, NULL, roll_dice, indx[i])) {
             perror("Error, thread creation failed");
             deallocate_mem(i + 1);
             // Attempt to clean up resources by destroying barriers
@@ -111,6 +80,14 @@ int main()
         
         // Deciding the winner(s) by max value
         max = 0;
+        // Attempt to obtain lock
+        if(pthread_mutex_lock(&mLock)) {
+            perror("Error, failed to lock mutex mLock");
+            deallocate_mem(NUM_THREAD);
+            // Attempt to clean up resources by destroying barriers
+            clean_up();
+            return ERR_MUTEX_LOCK;
+        }
         for (i = 0; i < NUM_THREAD; ++i) {
             if (diceValue[i] > max) {
                 max = diceValue[i];
@@ -120,6 +97,14 @@ int main()
         // Setting the winner(s) using winnerStatus
         for (i = 0; i < NUM_THREAD; i++) {
             winnerStatus[i] = (diceValue[i] == max) ? 1 : 0;
+        }
+        //Attempt to release the lock
+        if(pthread_mutex_unlock(&mLock)) {
+            perror("Error, failed to unlock mutex mLock");
+            deallocate_mem(NUM_THREAD);
+            // Attempt to clean up resources by destroying barriers
+            clean_up();
+            return ERR_MUTEX_UNLOCK;
         }
 
         //puts("Main thread sleeps after dice barrier\n");
