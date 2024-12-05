@@ -3,6 +3,7 @@
 */
 #include <stdio.h>
 #include <stdlib.h>
+#include <unistd.h>
 #include "../header/barrier_dice.h"
 
 
@@ -147,6 +148,10 @@ void* roll_dice(void* indx)
         if (pthread_mutex_unlock(&mLock)) {
             perror("Error, failed to unlock mutex mLock");
             return NULL;
+        }
+        // Causing a thread to sleep
+        if(usleep(999999)) {
+            perror("Error, usleep() failed");
         }
     }
     return NULL;
