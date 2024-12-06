@@ -27,7 +27,7 @@ extern pthread_barrier_t decisionBarrier;   // barrier for deciding winner(s)
 
 #define DICE_LIMIT 6        // Limit the range of dice values to [0-6]
 #define NUM_THREAD 11       // The number of threads and index range
-#define NUM_ROUNDS 3       // For testing purpose
+// #define NUM_ROUNDS 3       // For testing purpose
 
 /**
  * 

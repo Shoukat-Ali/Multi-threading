@@ -73,7 +73,7 @@ int initialize()
 void* roll_dice(void* indx)
 {
     int ret, index = 0;
-    int count = 0;
+    // int count = 0;
 
     // Checking if void* is null
     if (!indx) {
@@ -89,8 +89,9 @@ void* roll_dice(void* indx)
         return NULL;
     }
     
-    while (count < NUM_ROUNDS) {
-        count++;
+    // while (count < NUM_ROUNDS) {
+    //     count++;
+    while (1) {
         // diceValue[] is shared globally, therefore, locking
         if(pthread_mutex_lock(&mLock)) {
             perror("Error, failed to lock mutex mLock");
@@ -151,10 +152,10 @@ void* roll_dice(void* indx)
             perror("Error, failed to unlock mutex mLock");
             return NULL;
         }
-        // Causing a thread to sleep
-        if(usleep(999999)) {
-            perror("Error, usleep() failed");
-        }
+        // Part of testing to cause a thread to sleep
+        // if(usleep(999999)) {
+        //     perror("Error, usleep() failed");
+        // }
     }
     return NULL;
 }
