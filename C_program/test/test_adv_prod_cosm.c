@@ -1,5 +1,7 @@
 /**
  * 
+ *  
+ * gcc -Wall -Werror -g3 -O3 ../source/adv_prod_cosm.c test_adv_prod_cosm.c -o prog
 */
 
 #include <stdio.h>
@@ -8,8 +10,7 @@
 
 
 #define NUM_THREADS 5
-
-const int ArrayBound = 10; 
+#define ArrayBound 10 
 
 int buffer[ArrayBound];
 int count = 0;
@@ -17,7 +18,7 @@ int count = 0;
 
 sem_t semEmpty;
 sem_t semFull;
-pthread_mutex_t mutexBuffer;
+pthread_mutex_t mBuffer;
 
 
 /**

@@ -15,12 +15,10 @@
 #define ERR_COSM_THRD_CREATE 3
 #define ERR_PROD_THRD_CREATE 4
 #define ERR_THRD_JOIN 5
-#define ERR_MUTEX_INIT 6
-#define ERR_MUTEX_LOCK 7
-#define ERR_MUTEX_UNLOCK 8
+#define ERR_MUTEX_LOCK 6
+#define ERR_MUTEX_UNLOCK 7
 
 
-const int Bound = 100;
 #define SEMAPHORE_LIMIT 10
 
 extern int buffer[];

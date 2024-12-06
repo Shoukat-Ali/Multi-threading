@@ -4,8 +4,11 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <unistd.h>
 #include "../header/adv_prod_cosm.h"
 
+
+const int Bound = 100;
 
 /**
  * 
