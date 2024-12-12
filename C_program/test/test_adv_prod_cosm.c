@@ -10,7 +10,7 @@
 
 
 #define NUM_THREADS 5
-#define ArrayBound 10 
+ 
 
 int buffer[ArrayBound];
 int count = 0;

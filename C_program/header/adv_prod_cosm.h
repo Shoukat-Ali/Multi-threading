@@ -20,6 +20,8 @@
 
 
 #define SEMAPHORE_LIMIT 10
+#define ArrayBound 10
+
 
 extern int buffer[];
 extern int count;

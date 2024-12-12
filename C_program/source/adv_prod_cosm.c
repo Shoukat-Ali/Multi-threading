@@ -11,6 +11,7 @@
 const int Bound = 100;
 
 /**
+ * The function attempts to initialize the required resources for usage
  * 
  * On success, returns 0; otherwise an error number (non-zero integers) is returned.
  * 
@@ -48,7 +49,7 @@ int initialize()
 */
 void* producer()
 {
-    int x;
+    int x = 0;
 
     while (1) {
         // Produce
@@ -68,8 +69,11 @@ void* producer()
             return NULL;
         }
         // Shared resources
-        buffer[count] = x;
-        count++;
+        // TODO: verify count value never goes out of array index range
+        if(count >= 0 && count < ArrayBound) {
+            buffer[count] = x;
+            count++;
+        }
 
         // Release lock
         if(pthread_mutex_unlock(&mBuffer)) {
@@ -81,7 +85,8 @@ void* producer()
             perror("Error, producer sem_post(&semFull) failed");
         }
 
-        printf("Food Produced: %d\n", x);
+        printf("Food Produced:: %d  (thread id: %lu)\n", x, (unsigned long)pthread_self());
+        // printf("Food Produced: %d\n", x);
     }
 }
 
@@ -91,7 +96,7 @@ void* producer()
 */
 void* consumer()
 {
-    int y;
+    int y = 0;
 
     while (1) {
         // Remove from the buffer
@@ -104,8 +109,12 @@ void* consumer()
             return NULL;
         }
         // Shared resources
-        y = buffer[count - 1];
-        count--;
+        // TODO: verify count value never goes out of array index range
+        if(count > 0 && count < ArrayBound) {
+            y = buffer[count - 1];
+            count--;
+        }
+        
         // Release lock
         if(pthread_mutex_unlock(&mBuffer)) {
             perror("Error, consumer failed to unlock mutex mBuffer");
@@ -116,7 +125,8 @@ void* consumer()
             perror("Error, consumer sem_post(&semEmpty) failed");
         }
 
-        printf("Food Consumed: %d\n", y);
+        printf("Food Consumed:: %d  (thread id: %lu)\n", y, (unsigned long)pthread_self());
+        // printf("Food Consumed: %d\n", y);
         // Causing consumer thread to sleep for nearly a minute
         if(usleep(999999)) {
             perror("Error, consumer usleep() failed");
