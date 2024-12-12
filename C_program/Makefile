@@ -60,6 +60,12 @@ SRC_SSEMAPHR = $(addprefix $(SRC_DIR),simple_semaphore.c)
 MAIN_SSEMAPHR = $(addprefix $(MAIN_DIR),test_simple_semaphore.c)
 
 
+# Advanced Producer and Consumer using mutex and semaphore exmaple (ADVPRODCOSM)
+HDR_ADVPRODCOSM = $(addprefix $(HEADER_DIR),adv_prod_cosm.h)
+SRC_ADVPRODCOSM = $(addprefix $(SRC_DIR),adv_prod_cosm.c)
+MAIN_ADVPRODCOSM = $(addprefix $(MAIN_DIR),test_adv_prod_cosm.c)
+
+
 
 #Object files
 OBJS_STHRD = main_SThrd.o src_SThrd.o
@@ -71,6 +77,7 @@ OBJS_SPRODCOSM = main_SProdCosm.o src_SProdCosm.o
 OBJS_BRDPRODCOSM = main_BrdProdCosm.o src_BrdProdCosm.o
 OBJS_BRRDICEROLL = main_BrrDiceRoll.o src_BrrDiceRoll.o
 OBJS_SSEMAPHR = main_SSemaphore.o src_SSemaphore.o
+OBJS_ADVPRODCOSM = main_AdvProdCosm.o src_AdvProdCosm.o
 
 
 
@@ -176,6 +183,17 @@ test_SSemaphore: $(OBJS_SSEMAPHR)
 
 
 
+# Advanced Producer and Consumer using mutex and semaphore exmaple (ADVPRODCOSM)
+main_AdvProdCosm.o: $(MAIN_ADVPRODCOSM)
+	$(CC) $(CFLAGS) $< -o $@
+
+src_AdvProdCosm.o: $(SRC_ADVPRODCOSM) $(HDR_ADVPRODCOSM)
+	$(CC) $(CFLAGS) $< -o $@
+
+test_AdvProdCosm: $(OBJS_ADVPRODCOSM)
+	$(CC) $^ -o $@
+
+
 
 
 .PHONY : clean
@@ -205,3 +223,6 @@ clean_BrrDiceRoll:
 
 clean_SSemaphore:
 	rm test_SSemaphore $(OBJS_SSEMAPHR)
+
+clean_AdvProdCosm:
+	rm test_AdvProdCosm $(OBJS_ADVPRODCOSM)

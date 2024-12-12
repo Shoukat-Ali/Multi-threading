@@ -127,8 +127,8 @@ void* consumer()
 
         printf("Food Consumed:: %d  (thread id: %lu)\n", y, (unsigned long)pthread_self());
         // printf("Food Consumed: %d\n", y);
-        // Causing consumer thread to sleep for nearly a minute
-        if(usleep(999999)) {
+        // Causing consumer thread to sleep for 0.5 minute
+        if(usleep(500000)) {
             perror("Error, consumer usleep() failed");
         }
     }
