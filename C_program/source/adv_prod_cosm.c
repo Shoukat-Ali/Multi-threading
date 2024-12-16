@@ -55,7 +55,7 @@ void* producer()
         // Produce
         x = rand() % Bound;
 
-        // Causing producer thread to sleep for nearly a minute
+        // Causing producer thread to sleep for nearly a sec
         if(usleep(999999)) {
             perror("Error, producer usleep() failed");
         }
@@ -127,7 +127,7 @@ void* consumer()
 
         printf("Food Consumed:: %d  (thread id: %lu)\n", y, (unsigned long)pthread_self());
         // printf("Food Consumed: %d\n", y);
-        // Causing consumer thread to sleep for 0.5 minute
+        // Causing consumer thread to sleep for 0.5 sec
         if(usleep(500000)) {
             perror("Error, consumer usleep() failed");
         }

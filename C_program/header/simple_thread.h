@@ -1,5 +1,7 @@
 /**
- * A simple thread program
+ * A simple (joinable) multi-threading program using pthread on Ubuntu.
+ * In POSIX, a thread is in a joinable state by default. The parent thread can 
+ * wait for the joinable thread to finish its execution using pthread_join().
 */
 
 #ifndef SIMPLE_THREAD_H

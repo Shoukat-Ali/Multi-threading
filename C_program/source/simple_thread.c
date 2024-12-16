@@ -1,5 +1,5 @@
 /**
- * A simple thread example
+ * A simple thread example using pthread.
 */
 
 #include <stdio.h>
@@ -10,16 +10,20 @@
 
 /**
  * 
+ * 
  */
 void* my_thread1()
 {
     printf("Starting thread\n");
-    sleep(4);
+    // Sleeping for 0.5 sec
+    if(usleep(500000)) {
+        perror("Error, usleep() failed");
+    }
     printf("Ending thread\n");
     return NULL;
 }
 
-/**
+/** 
  * 
  */
 void* my_thread2(void* arg)
@@ -40,7 +44,7 @@ void* my_thread2(void* arg)
         }
     }
     printf("Starting thread with arg (%s)\n", msg);
-    // Sleeping for nearly a minute
+    // Sleeping for nearly a sec
     if(usleep(999999)) {
         perror("Error, usleep() failed");
     }

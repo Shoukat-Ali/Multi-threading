@@ -1,10 +1,13 @@
 /**
- * Testing simple (joinable) thread program on Ubuntu using pthread.
+ * Testing simple (joinable) multi-threading program using pthread on Ubuntu.
  * In POSIX, a thread is in a joinable state by default. The parent thread can 
  * wait for the joinable thread to finish its execution using pthread_join().
  * 
  * Parent/main and child threads are synchronized throughout their lifecycle.
  * Resources are released on pthread_join() call.
+ * 
+ * This program is a basic demonstration of creating and managing multiple threads in C 
+ * by passing arguments to threads and synchronizing their completion with the main/parent thread.
  * 
  * gcc -Wall -Werror -g3 -O3 ../source/simple_thread.c test_simple_thread.c -o prog
  * 
@@ -15,7 +18,9 @@
 #include <pthread.h>    //For threading
 #include "../header/simple_thread.h"
 
-
+/**
+ * 
+ */
 int main()
 {
     pthread_t t1, t2, t3;   // pthread_t is a type used to identify a thread

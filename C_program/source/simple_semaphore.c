@@ -47,7 +47,7 @@ void* my_thrd(void* indx)
         perror("Error, sem_wait() failed");
     }
     printf("User: (%d) is logged in\n", index);
-    // Sleeping for nearly a minute
+    // Sleeping for nearly a sec
     if(usleep(999999)) {
         perror("Error, usleep() failed");
     }
