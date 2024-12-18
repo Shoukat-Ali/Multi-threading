@@ -1,6 +1,6 @@
 /**
- * Testing a simple (joinable) threads creation threads using loop and 
- * passing arguments to program on Ubuntu using pthread library.
+ * Testing a simple (joinable) threads creation, execution, and termination of threads using loop and 
+ * passing arguments to program on Ubuntu using pthread library (POSIX threads).
  * 
  * 
  * gcc -Wall -Werror -g3 -O3 ../source/loop_arg.c test_loop_arg.c -o prog
