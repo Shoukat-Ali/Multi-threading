@@ -1,5 +1,8 @@
 /**
- * Testing a simple multi-threading (joinable threads) program that uses mutex on Ubuntu using pthread library.
+ * Testing a simple multi-threading (joinable threads) program that uses mutex on Ubuntu 
+ * using pthread library (POSIX threads). The example demonstrates a multithreaded increment operation 
+ * on a shared variable with synchronization using a mutex lock to avoid race conditions.
+ * 
  * A mutex is a mutual exclusion lock. Only one thread can hold the lock.
  * Mutexes are used to protect data or other resources from concurrent access. 
  * A mutex has attributes, which specify the characteristics of the mutex. 

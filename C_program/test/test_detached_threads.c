@@ -1,8 +1,9 @@
 /**
- * Testing simple detached threads program on Ubuntu using pthread. 
+ * Testing simple detached threads program on Ubuntu using pthread (POSIX threads). 
  * A thread is set in a detached state (via pthread_detach() 
  * or pthread_attr_setdetachstate()) releases its resources automatically upon termination.
- * Detached threads are independent and cannot be joined.
+ * Detached threads are independent and cannot be joined. In other words, detached thread 
+ * avoids blocking the main/parent thread so that threads run to completion independently.
  * 
  * gcc -Wall -Werror -g3 -O3 ../source/detached_threads.c test_detached_threads.c -o prog
 */

@@ -1,5 +1,13 @@
 /**
- * Testing multi-threading dice rolling program using barrier on Ubuntu using pthread library.
+ * Testing multi-threading dice rolling program using barrier on Ubuntu using pthread library (POSIX threads).
+ * The program implements a multi-threaded simulation where each thread represents a dice roll. 
+ * The threads and main/parent thread coordinate using barriers and mutex locks to determine 
+ * the winner of each dice roll round.
+ * 
+ * The diceBarrier synchronizes dice rolls, ensuring all threads finish rolling before proceeding to evaluate results.
+ * The decisionBarrier synchronizes the decision phase, ensuring all threads evaluate their winner status 
+ * before starting a new round.
+ * 
  *  
  * gcc -Wall -Werror -g3 -O3 ../source/barrier_dice.c test_barrier_dice.c -o prog
  * 
