@@ -10,4 +10,6 @@ There is a simple detached thread example where each thread releases its resourc
 
 One example demonstrates a multi-threaded increment operation on a (globally) shared variable with synchronization using a **mutex** lock to avoid race conditions.
 
+In one of the examples, the program simulates concurrent resource allocation in a kitchen, where multiple chefs (threads)  use shared stoves (resources) with limited fuel. The program ensures thread-safe access to the stoves using non-blocking mutex Lock ```pthread_mutex_trylock()```.
+
 One of the programs implements a multi-threaded simulation where each thread represents a dice roll. The threads and main/parent thread coordinate using **barriers** and **mutex** locks to determine the winner of each dice roll round.
