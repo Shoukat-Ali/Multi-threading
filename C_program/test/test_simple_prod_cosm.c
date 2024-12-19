@@ -1,6 +1,11 @@
 /**
  * Testing a simple producer and consumer program using mutex and conditional variable 
- * on Ubuntu using pthread library.
+ * on Ubuntu using pthread library (POSIX threads).
+ * 
+ * The program demonstrates multi-threaded synchronization between producer and consumer threads 
+ * using a mutex for protecting shared resources and a condition variable for managing thread execution 
+ * based on resource availability. The condition variable allows threads to signal and wait so that 
+ * to coordinate their activities efficiently.
  *  
  * gcc -Wall -Werror -g3 -O3 ../source/simple_prod_cosm.c test_simple_prod_cosm.c -o prog
 */
