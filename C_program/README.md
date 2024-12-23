@@ -17,3 +17,5 @@ One of the programs implements a multi-threaded simulation where each thread rep
 One example demonstrates multi-threaded synchronization between producer and consumer threads using a **mutex** for protecting shared resources and a **condition variable** for managing thread execution based on resource availability.
 
 One example illustrates the scenario where there are multiple consumer threads and one producer thread. The synchronization using mutexe and condition variable to manage access to a shared resource while the producer broadcasts a signal to all waiting consumer threads (```pthread_cond_broadcast()```) to indicate enough food is available for consumption.
+
+In one of the examples, the program demonstrates the use of **semaphores** to control access to a shared resource in a multi-threaded environment. It demonstrates a login system where a limited number of users can log in simultaneously, represented by threads.

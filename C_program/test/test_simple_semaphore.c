@@ -1,5 +1,8 @@
 /**
- * Testing simple semaphore program on Ubuntu using pthread and semaphore.
+ * Testing simple semaphore program on Ubuntu using pthread (POSIX threads) and semaphore.
+ * The program demonstrates the use of semaphores to control access to a shared resource 
+ * in a multi-threaded environment. It simulates a login system where a limited number of users 
+ * can log in simultaneously, represented by threads.
  *  
  * gcc -Wall -Werror -g3 -O3 ../source/simple_semaphore.c test_simple_semaphore.c -o prog
 */
