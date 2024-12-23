@@ -1,5 +1,8 @@
 /**
- * 
+ * Testing producer-consumer problem using semaphore and mutexe to handle synchronization
+ * on Ubuntu using pthread (POSIX threads).
+ * The program involves multiple producers and consumers accessing a shared buffer concurrently, 
+ * ensuring data consistency and avoiding race conditions.
  *  
  * gcc -Wall -Werror -g3 -O3 ../source/adv_prod_cosm.c test_adv_prod_cosm.c -o prog
 */
