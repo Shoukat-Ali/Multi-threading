@@ -1,4 +1,4 @@
-This is an attempt to show some examples of multi-threading C programs using pthread on Ubuntu. These examples are not meant to be exhaustive but hope that you'll find the range of programs useful/interesting. 
+This is an attempt to show some examples of multi-threading C programs using pthread (POSIX threads) on Ubuntu. These examples are not meant to be exhaustive but hope that you'll find the range of programs useful/interesting. 
 
 You'll find some instructions and explanations at the top of each program in the ***test*** directory where the ```main()``` function is defined.
 
@@ -15,3 +15,5 @@ In one of the examples, the program simulates concurrent resource allocation in 
 One of the programs implements a multi-threaded simulation where each thread represents a dice roll. The threads and main/parent thread coordinate using **barriers** and **mutex** locks to determine the winner of each dice roll round.
 
 One example demonstrates multi-threaded synchronization between producer and consumer threads using a **mutex** for protecting shared resources and a **condition variable** for managing thread execution based on resource availability.
+
+One example illustrates the scenario where there are multiple consumer threads and one producer thread. The synchronization using mutexe and condition variable to manage access to a shared resource while the producer broadcasts a signal to all waiting consumer threads (```pthread_cond_broadcast()```) to indicate enough food is available for consumption.

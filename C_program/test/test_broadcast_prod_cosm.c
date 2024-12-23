@@ -1,6 +1,11 @@
 /**
  * Testing a simple producer and consumer program using mutex and broadcasting on 
- * conditional variable on Ubuntu using pthread library.
+ * conditional variable on Ubuntu using pthread library (POSIX threads).
+ * This program illustrates a Producer-Consumer problem with multiple consumer threads 
+ * and one producer thread. It demonstrates thread synchronization using mutexe and 
+ * condition variable to manage access to a shared resource. 
+ * The producer broadcasts a signal to all waiting consumer threads (pthread_cond_broadcast()) 
+ * to indicate enough food is available for consumption.
  *  
  * gcc -Wall -Werror -g3 -O3 ../source/broadcast_prod_cosm.c test_broadcast_prod_cosm.c -o prog
  * 
