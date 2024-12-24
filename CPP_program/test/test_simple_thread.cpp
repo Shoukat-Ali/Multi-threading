@@ -1,6 +1,6 @@
 /**
- * This program demonstrates a simple multi-threading program using the thread library supported in C++11
- * and program is tested on Ubuntu.
+ * This program demonstrates a simple multi-threading program using the class thread (std::thread since C++11)
+ * while the program is tested on Ubuntu.
  * 
  * The class thread represents a single thread of execution. 
  * Threads allow multiple functions to execute concurrently.
