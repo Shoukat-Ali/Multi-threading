@@ -14,6 +14,6 @@ void thrd_int(int a);
 /**
  * 
  */
-void thrd_float(float b);
+void thrd_float(float& b);
 
 #endif

@@ -10,7 +10,7 @@
  */
 void thrd_int(int a)
 {
-    std::cout << "thrd_int(" << a << ")" << std::endl;
+    std::cout << "\tthrd_int(" << a << ")" << std::endl;
 }
 
 
@@ -19,5 +19,5 @@ void thrd_int(int a)
  */
 void thrd_float(float& b)
 {
-    std::cout << "thrd_float(" << b << ")\n";
+    std::cout << "\tthrd_float(" << b << ")\n";
 }

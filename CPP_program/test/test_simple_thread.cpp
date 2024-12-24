@@ -1,5 +1,23 @@
 /**
+ * This program demonstrates a simple multi-threading program using the thread library supported in C++11
+ * and program is tested on Ubuntu.
  * 
+ * The class thread represents a single thread of execution. 
+ * Threads allow multiple functions to execute concurrently.
+ * 
+ * No two std::thread objects may represent the same thread of execution; 
+ * std::thread is not CopyConstructible or CopyAssignable, although it is MoveConstructible and MoveAssignable.
+ *
+ * g++ -Wall -Werror -g3 -O3 -fsanitize=thread -std=c++11 test_simple_thread.cpp ../source/simple_thread.cpp -o prog
+ * 
+ * If you get the following memory mapping error
+ * FATAL: ThreadSanitizer: unexpected memory mapping
+ * 
+ * then one solution could be to run
+ * sudo sysctl vm.mmap_rnd_bits=30
+ * 
+ * Note that, for the above solution to work, you need to run the command on every reboot
+ *   
  */
 
 #include <iostream>
@@ -15,7 +33,7 @@ int main()
 
     // Using lambda function as thread
     auto lambda_func = [] (int z) {
-        std::cout << "Lambda thread: " << z << "\n"; 
+        std::cout << "\tLambda thread: " << z << "\n"; 
     };
 
     std::cout << "Main/Parent thread\n";
@@ -37,7 +55,7 @@ int main()
      */
         
     std::thread thrd1(&thrd_int, x);
-    std::thread thrd2(&thrd_float, y);
+    std::thread thrd2(&thrd_float, std::ref(y));
     std::thread thrd3(lambda_func, 99);
     std::thread thrd4(thrd_int, x + 10);
 
@@ -55,10 +73,10 @@ int main()
     std::thread::id thrd4_ID = thrd4.get_id();
 
     // stoud the thread ids
-    std::cout << "Thread1 ID :: " << thrd1_ID << "\n"
-              << "Thread2 ID :: " << thrd2_ID << "\n"
-              << "Thread2 ID :: " << thrd3_ID << "\n"
-              << "Thread4 ID :: " << thrd4_ID << "\n";
+    std::cout << "\tThread1 ID :: " << thrd1_ID << "\n"
+              << "\tThread2 ID :: " << thrd2_ID << "\n"
+              << "\tThread2 ID :: " << thrd3_ID << "\n"
+              << "\tThread4 ID :: " << thrd4_ID << "\n";
 
     /**
      * void join();
