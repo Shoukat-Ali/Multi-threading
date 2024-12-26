@@ -7,6 +7,12 @@
  * 
  * No two std::thread objects may represent the same thread of execution; 
  * std::thread is not CopyConstructible or CopyAssignable, although it is MoveConstructible and MoveAssignable.
+ * 
+ * -fsanitize=thread: Enable ThreadSanitizer, a fast data race detector. 
+ * Memory access instructions are instrumented to detect data race bugs. 
+ * See https://github.com/google/sanitizers/wiki#threadsanitizer for more details. 
+ * The run-time behavior can be influenced using the TSAN_OPTIONS environment variable; 
+ * see https://github.com/google/sanitizers/wiki/ThreadSanitizerFlags for a list of supported options.
  *
  * g++ -Wall -Werror -g3 -O3 -fsanitize=thread -std=c++11 test_simple_thread.cpp ../source/simple_thread.cpp -o prog
  * or
