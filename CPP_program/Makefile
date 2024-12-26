@@ -21,11 +21,17 @@ HDR_STHRD = $(addprefix $(HEADER_DIR),simple_thread.hpp)
 SRC_STHRD = $(addprefix $(SRC_DIR),simple_thread.cpp)
 MAIN_STHRD = $(addprefix $(MAIN_DIR),test_simple_thread.cpp)
 
+# Simple Vector Thread example using normal and lambda function (SVECTHRD)
+HDR_SVECTHRD = $(addprefix $(HEADER_DIR),thread_vec.hpp)
+SRC_SVECTHRD = $(addprefix $(SRC_DIR),thread_vec.cpp)
+MAIN_SVECTHRD = $(addprefix $(MAIN_DIR),test_thread_vec.cpp)
+
 
 
 
 #Object files
 OBJS_STHRD = main_SThrd.o src_SThrd.o
+OBJS_SVECTHRD = main_SVecThrd.o src_SVecThrd.o
 
 
 
@@ -40,9 +46,22 @@ test_SThrd: $(OBJS_STHRD)
 	$(CXX) $(CXXASAN) $^ -o $@
 
 
+# Simple Vector Thread example using normal and lambda function (SVECTHRD)
+main_SVecThrd.o: $(MAIN_SVECTHRD)
+	$(CXX) $(CXXFLAGS) $(CXXASAN) $< -o $@
+
+src_SVecThrd.o: $(SRC_SVECTHRD) $(HDR_SVECTHRD)
+	$(CXX) $(CXXFLAGS) $(CXXASAN) $< -o $@
+
+test_SVecThrd: $(OBJS_SVECTHRD)
+	$(CXX) $(CXXASAN) $^ -o $@
+
+
 
 
 .PHONY : clean
 clean_SThrd:
 	rm test_SThrd $(OBJS_STHRD) 
 
+clean_SVecThrd:
+	rm test_SVecThrd $(OBJS_SVECTHRD)
