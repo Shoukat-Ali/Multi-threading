@@ -9,8 +9,10 @@
  * std::thread is not CopyConstructible or CopyAssignable, although it is MoveConstructible and MoveAssignable.
  *
  * g++ -Wall -Werror -g3 -O3 -fsanitize=thread -std=c++11 test_simple_thread.cpp ../source/simple_thread.cpp -o prog
+ * or
+ * g++ -Wall -Werror -g3 -O3 -fsanitize=address -std=c++11 test_simple_thread.cpp ../source/simple_thread.cpp -o prog
  * 
- * If you get the following memory mapping error
+ * For using -fsanitize=thread, if you get the following memory mapping error
  * FATAL: ThreadSanitizer: unexpected memory mapping
  * 
  * then one solution could be to run

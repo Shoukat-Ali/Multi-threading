@@ -4,6 +4,7 @@ MAIN_DIR = ./test/
 
 CC = gcc
 CFLAGS = -Wall -Werror -c -g3 -O3
+CASAN = -fsanitize=address
 
 
 # Simple Thread Example (STHRD)
@@ -83,115 +84,115 @@ OBJS_ADVPRODCOSM = main_AdvProdCosm.o src_AdvProdCosm.o
 
 # Simple Thread (STHRD)
 main_SThrd.o: $(MAIN_STHRD)
-	$(CC) $(CFLAGS) $< -o $@
+	$(CC) $(CFLAGS) $(CASAN) $< -o $@
 
 src_SThrd.o: $(SRC_STHRD) $(HDR_STHRD)
-	$(CC) $(CFLAGS) $< -o $@
+	$(CC) $(CFLAGS) $(CASAN) $< -o $@
 
 test_SThrd: $(OBJS_STHRD)
-	$(CC) $^ -o $@
+	$(CC) $(CASAN) $^ -o $@
 
 
 
 # Passing argument to Thread (LPARGTHRD)
 main_LPArgThrd.o: $(MAIN_LPARGTHRD)
-	$(CC) $(CFLAGS) $< -o $@
+	$(CC) $(CFLAGS) $(CASAN) $< -o $@
 
 src_LPArgThrd.o: $(SRC_LPARGTHRD) $(HDR_LPARGTHRD)
-	$(CC) $(CFLAGS) $< -o $@
+	$(CC) $(CFLAGS) $(CASAN) $< -o $@
 
 test_LPArgThrd: $(OBJS_LPARGTHRD)
-	$(CC) $^ -o $@
+	$(CC) $(CASAN) $^ -o $@
 
 
 # Multi-threading using mutex (MUTEXTHRD)
 main_MutexThrd.o: $(MAIN_MUTEXTHRD)
-	$(CC) $(CFLAGS) $< -o $@
+	$(CC) $(CFLAGS) $(CASAN) $< -o $@
 
 src_MutexThrd.o: $(SRC_MUTEXTHRD) $(HDR_MUTEXTHRD)
-	$(CC) $(CFLAGS) $< -o $@
+	$(CC) $(CFLAGS) $(CASAN) $< -o $@
 
 test_MutexThrd: $(OBJS_MUTEXTHRD)
-	$(CC) $^ -o $@
+	$(CC) $(CASAN) $^ -o $@
 
 
 
 # Chef and stove multi-threading using mutex (CHEFSTOVEMUTEX)
 main_ChefStoveMutex.o: $(MAIN_CHEFSTOVEMUTEX)
-	$(CC) $(CFLAGS) $< -o $@
+	$(CC) $(CFLAGS) $(CASAN) $< -o $@
 
 src_ChefStoveMutex.o: $(SRC_CHEFSTOVEMUTEX) $(HDR_CHEFSTOVEMUTEX)
-	$(CC) $(CFLAGS) $< -o $@
+	$(CC) $(CFLAGS) $(CASAN) $< -o $@
 
 test_ChefStoveMutex: $(OBJS_CHEFSTOVEMUTEX)
-	$(CC) $^ -o $@
+	$(CC) $(CASAN) $^ -o $@
 
 
 # Detached threads exmaple (DTCHTHRD)
 main_DetachThrd.o: $(MAIN_DTCHTHRD)
-	$(CC) $(CFLAGS) $< -o $@
+	$(CC) $(CFLAGS) $(CASAN) $< -o $@
 
 src_DetachThrd.o: $(SRC_DTCHTHRD) $(HDR_DTCHTHRD)
-	$(CC) $(CFLAGS) $< -o $@
+	$(CC) $(CFLAGS) $(CASAN) $< -o $@
 
 test_DetachThrd: $(OBJS_DTCHTHRD)
-	$(CC) $^ -o $@
+	$(CC) $(CASAN) $^ -o $@
 
 
 # Simple Producer and Consumer using mutex and conditional variable exmaple (SPRODCOSM)
 main_SProdCosm.o: $(MAIN_SPRODCOSM)
-	$(CC) $(CFLAGS) $< -o $@
+	$(CC) $(CFLAGS) $(CASAN) $< -o $@
 
 src_SProdCosm.o: $(SRC_SPRODCOSM) $(HDR_SPRODCOSM)
-	$(CC) $(CFLAGS) $< -o $@
+	$(CC) $(CFLAGS) $(CASAN) $< -o $@
 
 test_SProdCosm: $(OBJS_SPRODCOSM)
-	$(CC) $^ -o $@
+	$(CC) $(CASAN) $^ -o $@
 
 
 # Producer and Consumer using mutex and broadcasting conditional variable exmaple (BRDPRODCOSM)
 main_BrdProdCosm.o: $(MAIN_BRDPRODCOSM)
-	$(CC) $(CFLAGS) $< -o $@
+	$(CC) $(CFLAGS) $(CASAN) $< -o $@
 
 src_BrdProdCosm.o: $(SRC_BRDPRODCOSM) $(HDR_BRDPRODCOSM)
-	$(CC) $(CFLAGS) $< -o $@
+	$(CC) $(CFLAGS) $(CASAN) $< -o $@
 
 test_BrdProdCosm: $(OBJS_BRDPRODCOSM)
-	$(CC) $^ -o $@
+	$(CC) $(CASAN) $^ -o $@
 
 
 # Dice rolling using barrier for synchronization exmaple (BRRDICEROLL)
 main_BrrDiceRoll.o: $(MAIN_BRRDICEROLL)
-	$(CC) $(CFLAGS) $< -o $@
+	$(CC) $(CFLAGS) $(CASAN) $< -o $@
 
 src_BrrDiceRoll.o: $(SRC_BRRDICEROLL) $(HDR_BRRDICEROLL)
-	$(CC) $(CFLAGS) $< -o $@
+	$(CC) $(CFLAGS) $(CASAN) $< -o $@
 
 test_BrrDiceRoll: $(OBJS_BRRDICEROLL)
-	$(CC) $^ -o $@
+	$(CC) $(CASAN) $^ -o $@
 
 
 # Simple Semaphore exmaple (SSEMAPHR)
 main_SSemaphore.o: $(MAIN_SSEMAPHR)
-	$(CC) $(CFLAGS) $< -o $@
+	$(CC) $(CFLAGS) $(CASAN) $< -o $@
 
 src_SSemaphore.o: $(SRC_SSEMAPHR) $(HDR_SSEMAPHR)
-	$(CC) $(CFLAGS) $< -o $@
+	$(CC) $(CFLAGS) $(CASAN) $< -o $@
 
 test_SSemaphore: $(OBJS_SSEMAPHR)
-	$(CC) $^ -o $@
+	$(CC) $(CASAN) $^ -o $@
 
 
 
 # Advanced Producer and Consumer using mutex and semaphore exmaple (ADVPRODCOSM)
 main_AdvProdCosm.o: $(MAIN_ADVPRODCOSM)
-	$(CC) $(CFLAGS) $< -o $@
+	$(CC) $(CFLAGS) $(CASAN) $< -o $@
 
 src_AdvProdCosm.o: $(SRC_ADVPRODCOSM) $(HDR_ADVPRODCOSM)
-	$(CC) $(CFLAGS) $< -o $@
+	$(CC) $(CFLAGS) $(CASAN) $< -o $@
 
 test_AdvProdCosm: $(OBJS_ADVPRODCOSM)
-	$(CC) $^ -o $@
+	$(CC) $(CASAN) $^ -o $@
 
 
 
