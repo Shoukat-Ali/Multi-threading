@@ -27,7 +27,7 @@ void SimpleMutex::run()
     std::vector<std::thread> threads;
 
     for (int i = 0; i < NumThreads; ++i) {
-        threads.push_back(std::thread(increment_count));
+        threads.push_back(std::thread(increment_count, this));
     }
 
     for (auto& thread : threads) {
