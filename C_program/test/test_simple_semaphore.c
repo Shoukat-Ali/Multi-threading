@@ -8,7 +8,7 @@
  *      Limiting concurrent user access to a server
  *      Systems with limited capacity (e.g., parking lots, database connections)
  *  
- * gcc -Wall -Werror -g3 -O3 ../source/simple_semaphore.c test_simple_semaphore.c -o prog
+ * gcc -Wall -Werror -g3 -O3 -fsanitize=address ../source/simple_semaphore.c test_simple_semaphore.c -o prog
 */
 
 #include <stdio.h>

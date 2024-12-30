@@ -3,7 +3,7 @@
  * passing arguments to program on Ubuntu using pthread library (POSIX threads).
  * 
  * 
- * gcc -Wall -Werror -g3 -O3 ../source/loop_arg.c test_loop_arg.c -o prog
+ * gcc -Wall -Werror -g3 -O3 -fsanitize=address ../source/loop_arg.c test_loop_arg.c -o prog
 */
 
 #include <stdio.h>

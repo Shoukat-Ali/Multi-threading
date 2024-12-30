@@ -7,7 +7,7 @@
  * The producer broadcasts a signal to all waiting consumer threads (pthread_cond_broadcast()) 
  * to indicate enough food is available for consumption.
  *  
- * gcc -Wall -Werror -g3 -O3 ../source/broadcast_prod_cosm.c test_broadcast_prod_cosm.c -o prog
+ * gcc -Wall -Werror -g3 -O3 -fsanitize=address ../source/broadcast_prod_cosm.c test_broadcast_prod_cosm.c -o prog
  * 
 */
 

@@ -5,7 +5,7 @@
  * use shared stoves (resources) with limited fuel. 
  * The program ensures thread-safe access to the stoves using mutex locks.
  * 
- * gcc -Wall -Werror -g3 -O3 ../source/chef_stove.c test_chef_stove.c -o prog
+ * gcc -Wall -Werror -g3 -O3 -fsanitize=address ../source/chef_stove.c test_chef_stove.c -o prog
  * 
 */
 

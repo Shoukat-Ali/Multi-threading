@@ -5,7 +5,7 @@
  * Detached threads are independent and cannot be joined. In other words, detached thread 
  * avoids blocking the main/parent thread so that threads run to completion independently.
  * 
- * gcc -Wall -Werror -g3 -O3 ../source/detached_threads.c test_detached_threads.c -o prog
+ * gcc -Wall -Werror -g3 -O3 -fsanitize=address ../source/detached_threads.c test_detached_threads.c -o prog
 */
 
 #include <stdio.h>

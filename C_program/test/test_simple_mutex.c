@@ -7,7 +7,7 @@
  * Mutexes are used to protect data or other resources from concurrent access. 
  * A mutex has attributes, which specify the characteristics of the mutex. 
  * 
- * gcc -Wall -Werror -g3 -O3 ../source/simple_mutex.c test_simple_mutex.c -o prog 
+ * gcc -Wall -Werror -g3 -O3 -fsanitize=address ../source/simple_mutex.c test_simple_mutex.c -o prog 
 */
 
 #include <stdio.h>

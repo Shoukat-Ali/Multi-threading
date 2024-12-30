@@ -4,7 +4,7 @@
  * The program involves multiple producers and consumers accessing a shared buffer concurrently, 
  * ensuring data consistency and avoiding race conditions.
  *  
- * gcc -Wall -Werror -g3 -O3 ../source/adv_prod_cosm.c test_adv_prod_cosm.c -o prog
+ * gcc -Wall -Werror -g3 -O3 -fsanitize=address ../source/adv_prod_cosm.c test_adv_prod_cosm.c -o prog
 */
 
 #include <stdio.h>

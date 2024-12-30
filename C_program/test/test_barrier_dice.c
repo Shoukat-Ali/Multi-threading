@@ -9,7 +9,7 @@
  * before starting a new round.
  * 
  *  
- * gcc -Wall -Werror -g3 -O3 ../source/barrier_dice.c test_barrier_dice.c -o prog
+ * gcc -Wall -Werror -g3 -O3 -fsanitize=address ../source/barrier_dice.c test_barrier_dice.c -o prog
  * 
 */
 

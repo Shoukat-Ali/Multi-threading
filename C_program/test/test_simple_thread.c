@@ -9,7 +9,7 @@
  * This program is a basic demonstration of creating and managing multiple threads in C 
  * by passing arguments to threads and synchronizing their completion with the main/parent thread.
  * 
- * gcc -Wall -Werror -g3 -O3 ../source/simple_thread.c test_simple_thread.c -o prog
+ * gcc -Wall -Werror -g3 -O3 -fsanitize=address ../source/simple_thread.c test_simple_thread.c -o prog
  * 
 */
 

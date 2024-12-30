@@ -7,7 +7,7 @@
  * based on resource availability. The condition variable allows threads to signal and wait so that 
  * to coordinate their activities efficiently.
  *  
- * gcc -Wall -Werror -g3 -O3 ../source/simple_prod_cosm.c test_simple_prod_cosm.c -o prog
+ * gcc -Wall -Werror -g3 -O3 -fsanitize=address ../source/simple_prod_cosm.c test_simple_prod_cosm.c -o prog
 */
 
 #include <stdio.h>
