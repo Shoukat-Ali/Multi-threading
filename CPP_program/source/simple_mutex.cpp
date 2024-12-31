@@ -27,7 +27,14 @@ void SimpleMutex::run()
     std::vector<std::thread> threads;
 
     for (int i = 0; i < NumThreads; ++i) {
-        threads.push_back(std::thread(increment_count, this));
+        /**
+         * Non-static member function is used to create thread.
+         * When creating a thread using a member function then it is requried to:
+         *      Use the address-of operator (&) before the function name.
+         *      Provide a pointer to the object instance (in this case, this) as the first argument.
+         * 
+         */
+        threads.push_back(std::thread(&SimpleMutex::increment_count, this));
     }
 
     for (auto& thread : threads) {

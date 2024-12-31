@@ -22,7 +22,7 @@
 
 int main()
 {
-    const int NUM_THREADS = 10;
+    const int NUM_THREADS = 5;
     const int COUNTER = 5;
 
     SimpleMutex ObjThrd(NUM_THREADS, COUNTER);

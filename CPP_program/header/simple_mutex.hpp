@@ -13,17 +13,16 @@
 
 class SimpleMutex {
     private:
-        void increment_count();
         const int NumThreads;
         const int Count;
         int SharedRsc;
         mutable std::mutex mtx;
 
     public:
-        //Constructor
-        SimpleMutex(int nthrds, int cnt);
+        SimpleMutex(int nthrds, int cnt);       //Constructor
         void run();
         int get_count();
+        void increment_count();
 
 };
 
