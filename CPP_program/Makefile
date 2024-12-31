@@ -27,11 +27,17 @@ SRC_SVECTHRD = $(addprefix $(SRC_DIR),thread_vec.cpp)
 MAIN_SVECTHRD = $(addprefix $(MAIN_DIR),test_thread_vec.cpp)
 
 
+# Simple mutex example using class (SMUTEX)
+HDR_SMUTEX = $(addprefix $(HEADER_DIR),simple_mutex.hpp)
+SRC_SMUTEX = $(addprefix $(SRC_DIR),simple_mutex.cpp)
+MAIN_SMUTEX = $(addprefix $(MAIN_DIR),test_simple_mutex.cpp)
+
 
 
 #Object files
 OBJS_STHRD = main_SThrd.o src_SThrd.o
 OBJS_SVECTHRD = main_SVecThrd.o src_SVecThrd.o
+OBJS_SMUTEX = main_SMutex.o src_SMutex.o
 
 
 
@@ -57,6 +63,16 @@ test_SVecThrd: $(OBJS_SVECTHRD)
 	$(CXX) $(CXXASAN) $^ -o $@
 
 
+# Simple mutex example using class (SMUTEX)
+main_SMutex.o: $(MAIN_SMUTEX)
+	$(CXX) $(CXXFLAGS) $(CXXASAN) $< -o $@
+
+src_SMutex.o: $(SRC_SMUTEX) $(HDR_SMUTEX)
+	$(CXX) $(CXXFLAGS) $(CXXASAN) $< -o $@
+
+test_SMutex: $(OBJS_SMUTEX)
+	$(CXX) $(CXXASAN) $^ -o $@
+
 
 
 .PHONY : clean
@@ -65,3 +81,6 @@ clean_SThrd:
 
 clean_SVecThrd:
 	rm test_SVecThrd $(OBJS_SVECTHRD)
+
+clean_SMutex:
+	rm test_SMutex $(OBJS_SMUTEX)
