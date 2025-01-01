@@ -33,11 +33,17 @@ SRC_SMUTEX = $(addprefix $(SRC_DIR),simple_mutex.cpp)
 MAIN_SMUTEX = $(addprefix $(MAIN_DIR),test_simple_mutex.cpp)
 
 
+# Simple jobs example using mutex for shared and exclusive resource (JOBSMUTEX)
+HDR_JOBSMUTEX = $(addprefix $(HEADER_DIR),jobs_mutex.hpp)
+SRC_JOBSMUTEX = $(addprefix $(SRC_DIR),jobs_mutex.cpp)
+MAIN_JOBSMUTEX = $(addprefix $(MAIN_DIR),test_jobs_mutex.cpp)
+
 
 #Object files
 OBJS_STHRD = main_SThrd.o src_SThrd.o
 OBJS_SVECTHRD = main_SVecThrd.o src_SVecThrd.o
 OBJS_SMUTEX = main_SMutex.o src_SMutex.o
+OBJS_JOBSMUTEX = main_JobsMutex.o src_JobsMutex.o
 
 
 
@@ -74,6 +80,18 @@ test_SMutex: $(OBJS_SMUTEX)
 	$(CXX) $(CXXASAN) $^ -o $@
 
 
+# Simple jobs example using mutex for shared and exclusive resource (JOBSMUTEX)
+main_JobsMutex.o: $(MAIN_JOBSMUTEX)
+	$(CXX) $(CXXFLAGS) $(CXXASAN) $< -o $@
+
+src_JobsMutex.o: $(SRC_JOBSMUTEX) $(HDR_JOBSMUTEX)
+	$(CXX) $(CXXFLAGS) $(CXXASAN) $< -o $@
+
+test_JobsMutex: $(OBJS_JOBSMUTEX)
+	$(CXX) $(CXXASAN) $^ -o $@
+
+
+
 
 .PHONY : clean
 clean_SThrd:
@@ -84,3 +102,6 @@ clean_SVecThrd:
 
 clean_SMutex:
 	rm test_SMutex $(OBJS_SMUTEX)
+
+clean_JobsMutex:
+	rm test_JobsMutex $(OBJS_JOBSMUTEX)

@@ -4,7 +4,7 @@
 
 #include "../header/jobs_mutex.hpp"
 
-const unsigned int longerwait = 5;  // For job_2() longer sleep, interval * longer wait
+const unsigned int longerwait = 7;  // For job_2() longer sleep, interval * longer wait
 
 /**
  * 
@@ -27,7 +27,7 @@ void JobMutex::job_1()
         // Try to lock mutex to modify 'job_shared'
         if (mtx.try_lock()) { 
             std::cout << "job_1 (Thread id: " << std::this_thread::get_id()
-                      << " shared :: " << job_shared << "\n";
+                      << ") shared [" << job_shared << "]\n";
             mtx.unlock();
             return;
         } else {
@@ -35,7 +35,7 @@ void JobMutex::job_1()
             // Perform work on exclusive resource
             ++job_exclusive;
             std::cout << "job_1 (Thread id: " << std::this_thread::get_id() 
-                      << " exclusive [" << job_exclusive << "]\n";
+                      << ") exclusive [" << job_exclusive << "]\n";
             std::this_thread::sleep_for(interval);
         }
     }
@@ -53,7 +53,7 @@ void JobMutex::job_2()
     // First wait
     std::this_thread::sleep_for(longerwait * interval);
     // Modify the shared resource
-    job_shared = longerwait;
+    job_shared = longerwait * longerwait;
     
     // unlock mutex
     mtx.unlock();
