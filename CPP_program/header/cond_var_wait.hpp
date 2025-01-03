@@ -14,7 +14,7 @@
 
 class CondVarWait {
     private:
-        std::chrono::seconds interval;
+        unsigned int interval;
         std::condition_variable cv;
         std::mutex mtx;
         bool ready;
@@ -23,7 +23,7 @@ class CondVarWait {
         std::mutex CoutMtx;
 
     public:
-        CondVarWait(std::chrono::seconds waitsec);
+        CondVarWait(unsigned int sec);
         void wait();
         void signal();
         void print_msg(const std::string& message);
