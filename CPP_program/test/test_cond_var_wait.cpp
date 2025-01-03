@@ -1,5 +1,6 @@
 /**
- * 
+ * This program demonstrates the use of condition variables for thread synchronization, 
+ * allowing multiple threads to wait for a specific condition to be met before proceeding.
  * 
  * g++ -Wall -Werror -g3 -O3 -fsanitize=thread -std=c++11 test_cond_var_wait.cpp ../source/cond_var_wait.cpp -o prog
  * or

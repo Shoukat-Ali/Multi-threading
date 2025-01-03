@@ -38,12 +38,18 @@ HDR_JOBSMUTEX = $(addprefix $(HEADER_DIR),jobs_mutex.hpp)
 SRC_JOBSMUTEX = $(addprefix $(SRC_DIR),jobs_mutex.cpp)
 MAIN_JOBSMUTEX = $(addprefix $(MAIN_DIR),test_jobs_mutex.cpp)
 
+# Simple conditional variable wait for some condition example (CONDVARWAIT)
+HDR_CONDVARWAIT = $(addprefix $(HEADER_DIR),cond_var_wait.hpp)
+SRC_CONDVARWAIT = $(addprefix $(SRC_DIR),cond_var_wait.cpp)
+MAIN_CONDVARWAIT = $(addprefix $(MAIN_DIR),test_cond_var_wait.cpp)
+
 
 #Object files
 OBJS_STHRD = main_SThrd.o src_SThrd.o
 OBJS_SVECTHRD = main_SVecThrd.o src_SVecThrd.o
 OBJS_SMUTEX = main_SMutex.o src_SMutex.o
 OBJS_JOBSMUTEX = main_JobsMutex.o src_JobsMutex.o
+OBJS_CONDVARWAIT = main_CondVarWait.o src_CondVarWait.o
 
 
 
@@ -91,6 +97,17 @@ test_JobsMutex: $(OBJS_JOBSMUTEX)
 	$(CXX) $(CXXASAN) $^ -o $@
 
 
+# Simple conditional variable wait for some condition example (CONDVARWAIT)
+main_CondVarWait.o: $(MAIN_CONDVARWAIT)
+	$(CXX) $(CXXFLAGS) $(CXXASAN) $< -o $@
+
+src_CondVarWait.o: $(SRC_CONDVARWAIT) $(HDR_CONDVARWAIT)
+	$(CXX) $(CXXFLAGS) $(CXXASAN) $< -o $@
+
+test_CondVarWait: $(OBJS_CONDVARWAIT)
+	$(CXX) $(CXXASAN) $^ -o $@
+
+
 
 
 .PHONY : clean
@@ -105,3 +122,6 @@ clean_SMutex:
 
 clean_JobsMutex:
 	rm test_JobsMutex $(OBJS_JOBSMUTEX)
+
+clean_CondVarWait:
+	rm test_CondVarWait $(OBJS_CONDVARWAIT)

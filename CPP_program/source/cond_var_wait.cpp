@@ -63,7 +63,7 @@ void CondVarWait::wait()
      *  
      */
     cv.wait(uqlk, [this] { return ready; });
-    print_msg("...finished waiting");
+    print_msg("...waiting over!");
 }
 
 
