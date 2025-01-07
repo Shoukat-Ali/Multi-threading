@@ -11,7 +11,7 @@
 /**
  * 
  */
-SimpleAtomic::SimpleAtomic(int NumThrds, int cnt) : nthrds(NumThrds), counter(cnt) 
+SimpleAtomic::SimpleAtomic(int NumThrds, int cnt) : nthrds(NumThrds), counter(cnt), shared_rsc(0) 
 {
     if(NumThrds < 0 || cnt < 0) {
         // For now, simply print error message
@@ -86,5 +86,5 @@ void SimpleAtomic::run()
         thread.join();
     }
 
-    std::cout << "We have, shared_rsc :: " << shared_rsc.load() << '\n';
+    std::cout << "Finally we have, shared_rsc :: " << shared_rsc.load() << '\n';
 }
