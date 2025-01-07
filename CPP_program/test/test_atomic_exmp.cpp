@@ -25,6 +25,7 @@ int main()
     const int COUNTER = 7;
 
     SimpleAtomic Obj(NUM_THREADS, COUNTER);
+    std::cout << "Initial value of atomic shared resource :: " << Obj.get_atomic_value() << "\n";
     Obj.run();
     
     return 0;

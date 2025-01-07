@@ -43,6 +43,12 @@ HDR_CONDVARWAIT = $(addprefix $(HEADER_DIR),cond_var_wait.hpp)
 SRC_CONDVARWAIT = $(addprefix $(SRC_DIR),cond_var_wait.cpp)
 MAIN_CONDVARWAIT = $(addprefix $(MAIN_DIR),test_cond_var_wait.cpp)
 
+# Simple atomic template example (ATOMICTEMPT)
+HDR_ATOMICTEMPT = $(addprefix $(HEADER_DIR),atomic_exmp.hpp)
+SRC_ATOMICTEMPT = $(addprefix $(SRC_DIR),atomic_exmp.cpp)
+MAIN_ATOMICTEMPT = $(addprefix $(MAIN_DIR),test_atomic_exmp.cpp)
+
+
 
 #Object files
 OBJS_STHRD = main_SThrd.o src_SThrd.o
@@ -50,6 +56,7 @@ OBJS_SVECTHRD = main_SVecThrd.o src_SVecThrd.o
 OBJS_SMUTEX = main_SMutex.o src_SMutex.o
 OBJS_JOBSMUTEX = main_JobsMutex.o src_JobsMutex.o
 OBJS_CONDVARWAIT = main_CondVarWait.o src_CondVarWait.o
+OBJS_ATOMICTEMPT = main_AtomicTemplate.o src_AtomicTemplate.o
 
 
 
@@ -108,6 +115,17 @@ test_CondVarWait: $(OBJS_CONDVARWAIT)
 	$(CXX) $(CXXASAN) $^ -o $@
 
 
+# Simple atomic template example (ATOMICTEMPT)
+main_AtomicTemplate.o: $(MAIN_ATOMICTEMPT)
+	$(CXX) $(CXXFLAGS) $(CXXASAN) $< -o $@
+
+src_AtomicTemplate.o: $(SRC_ATOMICTEMPT) $(HDR_ATOMICTEMPT)
+	$(CXX) $(CXXFLAGS) $(CXXASAN) $< -o $@
+
+test_AtomicTemplate: $(OBJS_ATOMICTEMPT)
+	$(CXX) $(CXXASAN) $^ -o $@
+
+
 
 
 .PHONY : clean
@@ -125,3 +143,6 @@ clean_JobsMutex:
 
 clean_CondVarWait:
 	rm test_CondVarWait $(OBJS_CONDVARWAIT)
+
+clean_AtomicTemplate:
+	rm test_AtomicTemplate $(OBJS_ATOMICTEMPT)
