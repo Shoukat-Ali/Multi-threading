@@ -6,7 +6,47 @@
 #include <iostream>
 #include "../header/producer_consumer.hpp"
 
-ProducerConsumer::ProducerConsumer(int numProd, int numCons) 
+
+
+/**
+ * 
+ */
+Consumer::Consumer(int id) : id(id), attempts(ATTEMPTS), running(true) 
+{
+    if(id < 0) {
+        std::cout << "Error, consumer id is negative integer\n";
+    }
+}
+
+
+Consumer::~Consumer() 
+{
+    id = 0;
+    attempts = 0;
+    running = false;
+}
+
+
+
+/**
+ * 
+ */
+Producer::Producer(int id) : id(id), running(true) 
+{
+    if(id < 0) {
+        std::cout << "Error, producer id is negative integer\n";
+    }
+}
+
+
+Producer::~Producer() 
+{
+    id = 0;
+    running = false;
+}
+
+
+ProducerConsumer::ProducerConsumer(int numProd, int numCons) :  SharedBasket(0), ConsumersDone(false)
 {
     for (int i = 0; i < numProd; ++i) {
         /**
@@ -15,11 +55,11 @@ ProducerConsumer::ProducerConsumer(int numProd, int numCons)
          * to construct the element in-place at the location provided by the container.
          * 
          */
-        producers.emplace_back();
+        prodrs.emplace_back();
     }
 
     for (int i = 0; i < numCons; ++i) {
-        consumers.emplace_back(i);
+        consrs.emplace_back(i);
     }
 }
 
@@ -27,24 +67,40 @@ ProducerConsumer::ProducerConsumer(int numProd, int numCons)
 ProducerConsumer::~ProducerConsumer() 
 {
     stop_all();
-    for (auto& thrd : Pthrds) {
-        if (thrd.joinable()) thrd.join();
+    for (auto& thrd : ProducerThrds) {
+        if (thrd.joinable()) 
+            thrd.join();
     }
 
-    for (auto& thrd : Cthrds) {
-        if (thrd.joinable()) thrd.join();
+    for (auto& thrd : ConsumerThrds) {
+        if (thrd.joinable()) 
+            thrd.join();
     }
 }
 
 
+
+/**
+ * 
+ */
+void ProducerConsumer::producer(int index) 
+{
+    auto& prod = prodrs[index];
+}
+
+
+
+/**
+ * 
+ */
 void ProducerConsumer::stop_all() 
 {
-    for (auto& prod : producers) {
+    for (auto& prod : prodrs) {
         prod.running = false;
     }
 
-    for (auto& cons : consumers) {
+    for (auto& cons : consrs) {
         cons.running = false;
-        cons.cv.notify_one();
     }
+    BasketCV.notify_all();
 }
