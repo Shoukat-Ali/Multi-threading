@@ -63,8 +63,10 @@ class ProducerConsumer
     private:
         std::vector<Producer> producers;
         std::vector<Consumer> consumers;
-        std::vector<std::thread> producerThreads;
-        std::vector<std::thread> consumerThreads;
+        std::vector<std::thread> Pthrds;
+        std::vector<std::thread> Cthrds;
+
+        void stop_all();
 
     public:
         ProducerConsumer(int numProd, int numCons);
