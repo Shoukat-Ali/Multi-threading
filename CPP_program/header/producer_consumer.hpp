@@ -20,6 +20,13 @@ struct Consumer
     // Unlike class, struct elements are by default public
     int id;
     int attempts;
+    /**
+     * Each instantiation and full specialization of the std::atomic template 
+     * defines an atomic type. If one thread writes to an atomic object while 
+     * another thread reads from it, the behavior is well-defined.
+     * 
+     * std::atomic is neither copyable nor movable. 
+     */
     std::atomic<bool> running;
 
     Consumer(int id);
@@ -51,7 +58,7 @@ class ProducerConsumer
         std::vector<std::thread> ConsumerThrds;
         
         // Shared resource/basket
-        unsigned int SharedBasket;
+        std::atomic<unsigned int> SharedBasket;
         std::mutex BasketMutex;
         std::condition_variable BasketCV;
         std::atomic<bool> ConsumersDone;
