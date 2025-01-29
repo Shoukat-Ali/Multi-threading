@@ -73,7 +73,6 @@ class ProducerConsumer
         void producer(int index);
         void consumer(int index);
         void stop_all();
-        int random_int(int min, int max);
 
 };
 

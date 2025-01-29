@@ -25,6 +25,9 @@ Consumer::Consumer(int id) : id(id), attempts(ATTEMPTS), running(true)
 }
 
 
+/**
+ * 
+ */
 Consumer::~Consumer() 
 {
     id = 0;
@@ -45,6 +48,9 @@ Producer::Producer(int id) : id(id), running(true)
 }
 
 
+/**
+ * 
+ */
 Producer::~Producer() 
 {
     id = 0;
@@ -52,6 +58,9 @@ Producer::~Producer()
 }
 
 
+/**
+ * 
+ */
 ProducerConsumer::ProducerConsumer(int numProd, int numCons) :  SharedBasket(0), ConsumersDone(false)
 {
     for(int i = 0; i < numProd; ++i) {
@@ -61,15 +70,20 @@ ProducerConsumer::ProducerConsumer(int numProd, int numCons) :  SharedBasket(0),
          * to construct the element in-place at the location provided by the container.
          * 
          */
-        prodrs.emplace_back();
+        prodrs.emplace_back(i);
+        // prodrs.push_back(Producer(i));
     }
 
     for(int i = 0; i < numCons; ++i) {
         consrs.emplace_back(i);
+        // consrs.push_back(Consumer(i));
     }
 }
 
 
+/**
+ * 
+ */
 ProducerConsumer::~ProducerConsumer() 
 {
     stop_all();
@@ -129,6 +143,11 @@ void ProducerConsumer::producer(int index)
 void ProducerConsumer::consumer(int index)
 {
     auto& cons = consrs[index];
+    if(cons.attempts > ATTEMPTS) {
+        // TODO: throw exception
+        std::cout << "Error, consumer attempts is more than allowed attempt\n";
+        return;
+    }
     while(cons.running.load() && cons.attempts > 0) {
         std::srand(std::time(nullptr)); // use current time as seed for pseudo-random integer generator
         int amount = std::rand();
@@ -141,7 +160,7 @@ void ProducerConsumer::consumer(int index)
          * Relaxed operation: there are no synchronization or ordering constraints 
          * imposed on other reads or writes, only this operation's atomicity is guaranteed
          */
-        if(amount <= SharedBasket.load(std::memory_order_relaxed)) {
+        if(((unsigned int) amount) <= SharedBasket.load(std::memory_order_relaxed)) {
             /**
              * Atomically replaces the current value with the result of arithmetic subtraction of the 
              * value and arg. That is, it performs atomic post-decrement. 
@@ -153,7 +172,7 @@ void ProducerConsumer::consumer(int index)
             std::cout   << "Consumer " << cons.id << " consumed " << amount << " food.\n\t Remaining :: " 
                         << (lastVal - amount) << std::endl;
         } 
-
+        // Better to release lock before going to rest/wait
         lock.unlock();
         std::this_thread::sleep_for(std::chrono::milliseconds(CONSUMER_REST));
     }
