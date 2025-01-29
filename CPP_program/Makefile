@@ -49,6 +49,11 @@ SRC_ATOMICTEMPT = $(addprefix $(SRC_DIR),atomic_exmp.cpp)
 MAIN_ATOMICTEMPT = $(addprefix $(MAIN_DIR),test_atomic_exmp.cpp)
 
 
+# Producer-Consumer example (PRODCOSR)
+HDR_PRODCOSR = $(addprefix $(HEADER_DIR),producer_consumer.hpp)
+SRC_PRODCOSR = $(addprefix $(SRC_DIR),producer_consumer.cpp)
+MAIN_PRODCOSR = $(addprefix $(MAIN_DIR),test_producer_consumer.cpp)
+
 
 #Object files
 OBJS_STHRD = main_SThrd.o src_SThrd.o
@@ -57,6 +62,7 @@ OBJS_SMUTEX = main_SMutex.o src_SMutex.o
 OBJS_JOBSMUTEX = main_JobsMutex.o src_JobsMutex.o
 OBJS_CONDVARWAIT = main_CondVarWait.o src_CondVarWait.o
 OBJS_ATOMICTEMPT = main_AtomicTemplate.o src_AtomicTemplate.o
+OBJS_PRODCOSR = main_ProdCosr.o src_ProdCosr.o
 
 
 
@@ -126,6 +132,18 @@ test_AtomicTemplate: $(OBJS_ATOMICTEMPT)
 	$(CXX) $(CXXASAN) $^ -o $@
 
 
+# Producer-Consumer example (PRODCOSR)
+main_ProdCosr.o: $(MAIN_PRODCOSR)
+	$(CXX) $(CXXFLAGS) $(CXXASAN) $< -o $@
+
+src_ProdCosr.o: $(SRC_PRODCOSR) $(HDR_PRODCOSR)
+	$(CXX) $(CXXFLAGS) $(CXXASAN) $< -o $@
+
+test_ProdCosr: $(OBJS_PRODCOSR)
+	$(CXX) $(CXXASAN) $^ -o $@
+
+
+
 
 
 .PHONY : clean
@@ -146,3 +164,6 @@ clean_CondVarWait:
 
 clean_AtomicTemplate:
 	rm test_AtomicTemplate $(OBJS_ATOMICTEMPT)
+
+clean_ProdCosr:
+	rm test_ProdCosr $(OBJS_PRODCOSR)
