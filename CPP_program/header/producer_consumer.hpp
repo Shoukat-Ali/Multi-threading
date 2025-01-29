@@ -13,67 +13,59 @@
 
 
 #define ATTEMPTS 3
+#define MODULUS 1000
 
-
-struct Consumer 
-{
-    // Unlike class, struct elements are by default public
-    int id;
-    int attempts;
-    /**
-     * Each instantiation and full specialization of the std::atomic template 
-     * defines an atomic type. If one thread writes to an atomic object while 
-     * another thread reads from it, the behavior is well-defined.
-     * 
-     * std::atomic is neither copyable nor movable. 
-     */
-    std::atomic<bool> running;
-
-    Consumer(int id);
-    ~Consumer();
-};
-
-
-
-
-struct Producer 
-{
-    // Unlike class, struct elements are by default public
-    int id;
-    std::atomic<bool> running;
-
-    Producer(int id);
-    ~Producer();
-};
-
-
-
-
-class ProducerConsumer 
+/**
+ * 
+ */
+class Basket 
 {
     private:
-        std::vector<Producer> prodrs;
-        std::vector<Consumer> consrs;
-        std::vector<std::thread> ProducerThrds;
-        std::vector<std::thread> ConsumerThrds;
-        
-        // Shared resource/basket
-        std::atomic<unsigned int> SharedBasket;
-        std::mutex BasketMutex;
-        std::condition_variable BasketCV;
-        std::atomic<bool> ConsumersDone;
+        std::mutex mtx;
+        std::condition_variable cv;
+        unsigned int FoodAmount;
+        bool stop;
 
     public:
-        ProducerConsumer(int NumProdrs, int NumConsrs);
-        ~ProducerConsumer();
-        void run();
-
-    // Private member functions
-    private:
-        void producer(int index);
-        void consumer(int index);
-        void stop_all();
-
+        Basket();
+        ~Basket();
+        void add_food(unsigned int amount);
+        void consume_food(unsigned int amount);
+        bool should_stop();
+        void signal_stop();
+        unsigned int get_food_amount();
 };
+
+/**
+ * 
+ */
+class Producer 
+{
+    private:
+        Basket& basket;
+        unsigned int ProdID;
+        
+    public:
+        Producer(Basket& bsk, unsigned int id);
+        void operator()();
+};
+
+
+/**
+ * 
+ */
+class Consumer 
+{
+    private:
+        Basket& basket;
+        unsigned int ConrID;
+        unsigned int attempts;
+        
+    public:
+        Consumer(Basket& bsk, unsigned int id);
+        void operator()();
+};
+
+
 
 #endif

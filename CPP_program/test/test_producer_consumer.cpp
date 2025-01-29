@@ -24,7 +24,34 @@
 
 int main(void)
 {
-    ProducerConsumer obj(NUM_PRODUCER, NUM_CONSUMER); 
-    obj.run();
+    Basket basket;
+
+    std::vector<std::thread> producers;
+    std::vector<std::thread> consumers;
+
+    // Producer threads
+    for (int i = 1; i <= NUM_PRODUCER; ++i) {
+        producers.emplace_back(Producer(basket, i));
+    }
+
+    // Consumer threads
+    for (int i = 1; i <= NUM_CONSUMER; ++i) {
+        consumers.emplace_back(Consumer(basket, i));
+    }
+
+    // Wait for all consumers to finish
+    for (auto& c : consumers) {
+        c.join();
+    }
+
+    // Signal producer to stop
+    basket.signal_stop();
+
+    // Wait for producers to finish
+    for (auto& p : producers) {
+        p.join();
+    }
+
+    std::cout << "Program terminating." << std::endl;
     return 0;
 }

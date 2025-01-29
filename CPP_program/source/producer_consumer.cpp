@@ -13,211 +13,128 @@
 #define PRODUCER_REST 200
 #define CONSUMER_REST 100
 
+/**
+ * 
+ */
+Basket::Basket() : FoodAmount(0), stop(false) 
+{
+    // For now, empty
+
+}
 
 /**
  * 
  */
-Consumer::Consumer(int id) : id(id), attempts(ATTEMPTS), running(true) 
+void Basket::add_food(unsigned int amount) 
 {
-    if(id < 0) {
-        std::cout << "Error, consumer id is negative integer\n";
+    std::lock_guard<std::mutex> lock(mtx);
+    if((amount + FoodAmount) <= UINT_MAX) {
+        FoodAmount += amount;
+        std::cout << "Added " << amount << " food.\n\t Total :: " << FoodAmount << std::endl;    
     }
+    else {
+        std::cout << "Food addition wasted due to overflow\n";
+    }
+    cv.notify_all();
+}
+
+/**
+ * 
+ */
+void Basket::consume_food(unsigned int amount) 
+{
+    std::lock_guard<std::mutex> lock(mtx);
+    if (FoodAmount >= amount) {
+        FoodAmount -= amount;
+        std::cout << "Consumed " << amount << " food.\n\t Remaining :: " << FoodAmount << std::endl;
+    }
+}
+
+/**
+ * 
+ */
+bool Basket::should_stop() 
+{
+    std::lock_guard<std::mutex> lock(mtx);
+    return stop;
+}
+
+/**
+ * 
+ */
+void Basket::signal_stop() 
+{
+    std::lock_guard<std::mutex> lock(mtx);
+    stop = true;
+    cv.notify_all();
+}
+
+/**
+ * 
+ */
+unsigned int Basket::get_food_amount() 
+{
+    std::lock_guard<std::mutex> lock(mtx);
+    return FoodAmount;
 }
 
 
 /**
  * 
  */
-Consumer::~Consumer() 
+Basket::~Basket()
 {
-    id = 0;
-    attempts = 0;
-    running = false;
-}
-
-
-
-/**
- * 
- */
-Producer::Producer(int id) : id(id), running(true) 
-{
-    if(id < 0) {
-        std::cout << "Error, producer id is negative integer\n";
-    }
+    FoodAmount = 0;
+    stop = true;
 }
 
 
 /**
  * 
  */
-Producer::~Producer() 
+Producer::Producer(Basket& bsk, unsigned int id) : basket(bsk), ProdID(id) 
 {
-    id = 0;
-    running = false;
+    // For now, empty
 }
 
 
 /**
  * 
  */
-ProducerConsumer::ProducerConsumer(int numProd, int numCons) :  SharedBasket(0), ConsumersDone(false)
-{
-    for(int i = 0; i < numProd; ++i) {
-        /**
-         * Appends a new element to the end of the container. The element is constructed 
-         * through std::allocator_traits::construct, which typically uses placement-new 
-         * to construct the element in-place at the location provided by the container.
-         * 
-         */
-        prodrs.emplace_back(i);
-        // prodrs.push_back(Producer(i));
-    }
-
-    for(int i = 0; i < numCons; ++i) {
-        consrs.emplace_back(i);
-        // consrs.push_back(Consumer(i));
-    }
-}
-
-
-/**
- * 
- */
-ProducerConsumer::~ProducerConsumer() 
-{
-    stop_all();
-    for(auto& thrd : ProducerThrds) {
-        if(thrd.joinable()) 
-            thrd.join();
-    }
-
-    for(auto& thrd : ConsumerThrds) {
-        if(thrd.joinable()) 
-            thrd.join();
-    }
-}
-
-
-
-/**
- * 
- */
-void ProducerConsumer::producer(int index) 
-{
-    auto& prod = prodrs[index];
-    /**
-     * std::atomic<T>::load()
-     * 
-     * Atomically loads and returns the current value of the atomic variable. 
-     * Memory is affected according to the value of order.
-     */
-    while(prod.running.load() && !ConsumersDone.load()) {
-        std::srand(std::time(nullptr)); // use current time as seed for pseudo-random integer generator
-        int amount = std::rand();
-        // if((SharedBasket.load() + amount) < std::numeric_limits<unsigned int>::max)
-        if((SharedBasket.load() + amount) < UINT_MAX) {
-            /**
-             * Atomically replaces the current value with the result of arithmetic addition of the value and arg. 
-             * That is, it performs atomic post-increment. The operation is a read-modify-write operation. 
-             * Memory is affected according to the value of order.
-             * 
-             */
-            unsigned int lastVal = SharedBasket.fetch_add(amount, std::memory_order_relaxed);
-            /**
-             * Using mutex for console output and conditional variable
-             */
-            std::lock_guard<std::mutex> lock(BasketMutex);
-            std::cout   << "Producer " << prod.id << " added " << amount << " food.\n\t Total :: " 
-                        << lastVal + amount << std::endl;
-            BasketCV.notify_all();
-        }
+void Producer::operator()() 
+{   
+    while(!basket.should_stop()) {
+        std::srand(std::time(0)); // use current time as seed for pseudo-random integer generator
+        std::cout << "Producer :: " << ProdID << " attempt\n"; 
+        basket.add_food(std::rand() % MODULUS);
         std::this_thread::sleep_for(std::chrono::milliseconds(PRODUCER_REST));
     }
+    std::cout << "Producer " << ProdID << " stopping production." << std::endl;
 }
 
 
 /**
  * 
  */
-void ProducerConsumer::consumer(int index)
+Consumer::Consumer(Basket& bsk, unsigned int id) : basket(bsk), ConrID(id), attempts(ATTEMPTS) 
 {
-    auto& cons = consrs[index];
-    if(cons.attempts > ATTEMPTS) {
-        // TODO: throw exception
-        std::cout << "Error, consumer attempts is more than allowed attempt\n";
-        return;
-    }
-    while(cons.running.load() && cons.attempts > 0) {
-        std::srand(std::time(nullptr)); // use current time as seed for pseudo-random integer generator
-        int amount = std::rand();
-        std::unique_lock<std::mutex> lock(BasketMutex);
-        BasketCV.wait(lock, [this, &cons] { 
-            return SharedBasket.load(std::memory_order_relaxed) > 0 ; 
-        });
-        /**
-         * std::memory_order_relaxed 
-         * Relaxed operation: there are no synchronization or ordering constraints 
-         * imposed on other reads or writes, only this operation's atomicity is guaranteed
-         */
-        if(((unsigned int) amount) <= SharedBasket.load(std::memory_order_relaxed)) {
-            /**
-             * Atomically replaces the current value with the result of arithmetic subtraction of the 
-             * value and arg. That is, it performs atomic post-decrement. 
-             * The operation is read-modify-write operation.
-             * 
-             */
-            unsigned int lastVal = SharedBasket.fetch_sub(amount, std::memory_order_relaxed);
-            --cons.attempts;
-            std::cout   << "Consumer " << cons.id << " consumed " << amount << " food.\n\t Remaining :: " 
-                        << (lastVal - amount) << std::endl;
-        } 
-        // Better to release lock before going to rest/wait
-        lock.unlock();
+    // For now, empty
+}
+
+/**
+ * 
+ */
+void Consumer::operator()() 
+{
+    while(attempts > 0) {
+        std::srand(std::time(0)); // use current time as seed for pseudo-random integer generator
+        int food = std::rand() % MODULUS;
+        if(basket.get_food_amount() > 0) {
+            std::cout << "Consumer :: " << ConrID << ", attempt :: " << attempts << std::endl;
+            basket.consume_food(food);
+        }
+        attempts--;
         std::this_thread::sleep_for(std::chrono::milliseconds(CONSUMER_REST));
     }
-
-}
-
-
-/**
- * 
- */
-void ProducerConsumer::stop_all() 
-{
-    for(auto& prod : prodrs) {
-        prod.running = false;
-    }
-
-    for(auto& cons : consrs) {
-        cons.running = false;
-    }
-    BasketCV.notify_all();
-}
-
-
-/**
- * 
- */
-void ProducerConsumer::run() 
-{
-    for(unsigned int i = 0; i < prodrs.size(); ++i) {
-        ProducerThrds.emplace_back(&ProducerConsumer::producer, this, i);
-    }
-
-    for(unsigned int i = 0; i < consrs.size(); ++i) {
-        ConsumerThrds.emplace_back(&ProducerConsumer::consumer, this, i);
-    }
-
-    for(auto& thrd : ConsumerThrds) {
-        thrd.join();
-    }
-
-    ConsumersDone.store(true);
-    BasketCV.notify_all();
-    
-    for(auto& thrd : ProducerThrds) {
-        thrd.join();
-    }
-    std::cout << "All consumers have exhausted their attempts. Program terminating." << std::endl;
+    std::cout << "Consumer " << ConrID << " has exhausted attempts." << std::endl;
 }
