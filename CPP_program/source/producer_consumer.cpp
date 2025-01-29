@@ -114,7 +114,8 @@ void ProducerConsumer::producer(int index)
              * Using mutex for console output and conditional variable
              */
             std::lock_guard<std::mutex> lock(BasketMutex);
-            std::cout << "Producer " << prod.id << " added " << amount << " food.\n\t Total :: " << lastVal + amount << std::endl;
+            std::cout   << "Producer " << prod.id << " added " << amount << " food.\n\t Total :: " 
+                        << lastVal + amount << std::endl;
             BasketCV.notify_all();
         }
         std::this_thread::sleep_for(std::chrono::milliseconds(PRODUCER_REST));
@@ -122,18 +123,82 @@ void ProducerConsumer::producer(int index)
 }
 
 
+/**
+ * 
+ */
+void ProducerConsumer::consumer(int index)
+{
+    auto& cons = consrs[index];
+    while(cons.running.load() && cons.attempts > 0) {
+        std::srand(std::time(nullptr)); // use current time as seed for pseudo-random integer generator
+        int amount = std::rand();
+        std::unique_lock<std::mutex> lock(BasketMutex);
+        BasketCV.wait(lock, [this, &cons] { 
+            return SharedBasket.load(std::memory_order_relaxed) > 0 ; 
+        });
+        /**
+         * std::memory_order_relaxed 
+         * Relaxed operation: there are no synchronization or ordering constraints 
+         * imposed on other reads or writes, only this operation's atomicity is guaranteed
+         */
+        if(amount <= SharedBasket.load(std::memory_order_relaxed)) {
+            /**
+             * Atomically replaces the current value with the result of arithmetic subtraction of the 
+             * value and arg. That is, it performs atomic post-decrement. 
+             * The operation is read-modify-write operation.
+             * 
+             */
+            unsigned int lastVal = SharedBasket.fetch_sub(amount, std::memory_order_relaxed);
+            --cons.attempts;
+            std::cout   << "Consumer " << cons.id << " consumed " << amount << " food.\n\t Remaining :: " 
+                        << (lastVal - amount) << std::endl;
+        } 
+
+        lock.unlock();
+        std::this_thread::sleep_for(std::chrono::milliseconds(CONSUMER_REST));
+    }
+
+}
+
 
 /**
  * 
  */
 void ProducerConsumer::stop_all() 
 {
-    for (auto& prod : prodrs) {
+    for(auto& prod : prodrs) {
         prod.running = false;
     }
 
-    for (auto& cons : consrs) {
+    for(auto& cons : consrs) {
         cons.running = false;
     }
     BasketCV.notify_all();
+}
+
+
+/**
+ * 
+ */
+void ProducerConsumer::run() 
+{
+    for(unsigned int i = 0; i < prodrs.size(); ++i) {
+        ProducerThrds.emplace_back(&ProducerConsumer::producer, this, i);
+    }
+
+    for(unsigned int i = 0; i < consrs.size(); ++i) {
+        ConsumerThrds.emplace_back(&ProducerConsumer::consumer, this, i);
+    }
+
+    for(auto& thrd : ConsumerThrds) {
+        thrd.join();
+    }
+
+    ConsumersDone.store(true);
+    BasketCV.notify_all();
+    
+    for(auto& thrd : ProducerThrds) {
+        thrd.join();
+    }
+    std::cout << "All consumers have exhausted their attempts. Program terminating." << std::endl;
 }
