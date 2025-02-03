@@ -3,6 +3,7 @@
  */
 
 #include <iostream>
+#include <limits>
 #include "../header/simple_mutex.hpp"
 
 /**
@@ -11,9 +12,10 @@
 SimpleMutex::SimpleMutex(int nthrds, int cnt) : NumThreads(nthrds), count(cnt), SharedRsc(0) 
 {
     if (nthrds <= 0 || cnt <= 0) {
-        // For now, simply printing error message
-        // TODO: throw exception
-        std::cout << "Number of threads and count value must be positive\n";
+        throw std::invalid_argument("Number of threads and count value must be positive");
+    }
+    if ((static_cast<long long>(nthrds) * cnt) > std::numeric_limits<int>::max()) {
+        throw std::overflow_error("Integer overflow can happend in var SharedRsc");
     }
 }
 

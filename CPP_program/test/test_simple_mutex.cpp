@@ -22,11 +22,17 @@
 
 int main()
 {
-    const int NUM_THREADS = 5;
-    const int COUNTER = 5;
-
-    SimpleMutex ObjThrd(NUM_THREADS, COUNTER);
-    ObjThrd.run();
-    std::cout << "Final value of shared resource/counter is :: " << ObjThrd.get_count() << std::endl;
+    const int NUM_THREADS = 55;
+    const int COUNTER = 123456789;
+    
+    try {
+        SimpleMutex ObjThrd(NUM_THREADS, COUNTER);
+        ObjThrd.run();
+        std::cout << "Final value of shared resource/counter is :: " << ObjThrd.get_count() << std::endl;
+    }
+    catch (const std::exception &e) {
+        std::cerr << "Error, " << e.what() << "\n";
+        return 1;
+    }
     return 0;
 }

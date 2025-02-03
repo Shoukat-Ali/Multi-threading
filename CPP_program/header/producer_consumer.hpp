@@ -18,8 +18,7 @@
 /**
  * 
  */
-class Basket 
-{
+class Basket {
     private:
         std::mutex mtx;
         std::condition_variable cv;
@@ -39,8 +38,7 @@ class Basket
 /**
  * 
  */
-class Producer 
-{
+class Producer {
     private:
         Basket& basket;
         unsigned int ProdID;
@@ -54,8 +52,7 @@ class Producer
 /**
  * 
  */
-class Consumer 
-{
+class Consumer {
     private:
         Basket& basket;
         unsigned int ConrID;
