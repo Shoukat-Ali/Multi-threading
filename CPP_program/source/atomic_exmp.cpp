@@ -15,7 +15,10 @@ SimpleAtomic::SimpleAtomic(int NumThrds, int cnt) : nthrds(NumThrds), counter(cn
 {
     if(NumThrds < 0 || cnt < 0) {
         // For now, simply print error message
-        std::cout << "The number of threads and counter cannot be negative integers\n";
+        throw std::invalid_argument("Number of threads and counter cannot be negative integers");
+    }
+    if ((static_cast<long long>(NumThrds) * cnt) > std::numeric_limits<int>::max()) {
+        throw std::overflow_error("Integer overflow can happend in shared_rsc");
     }
 }
 
@@ -54,15 +57,9 @@ int SimpleAtomic::get_atomic_value()
 void SimpleAtomic::increment_atomic() 
 {
     for (int i = 0; i < counter; ++i) {
-        if (shared_rsc.load() == std::numeric_limits<int>::max()) {
-            std::cout << "Overflow for shared_rsc\n";
-            break;
-        }
-        else {
-            ++shared_rsc;
-            std::cout << "Thread id: " << std::this_thread::get_id() 
-              << ", shared_rsc: " << shared_rsc.load() << '\n';
-        }
+        ++shared_rsc;
+        std::cout   << "Thread id: " << std::this_thread::get_id() 
+                    << ", shared_rsc: " << shared_rsc.load() << '\n';
     }
     
 }

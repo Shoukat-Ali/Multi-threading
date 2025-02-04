@@ -30,7 +30,7 @@ int main()
         ObjThrd.run();
         std::cout << "Final value of shared resource/counter is :: " << ObjThrd.get_count() << std::endl;
     }
-    catch (const std::exception &e) {
+    catch (const std::exception& e) {
         std::cerr << "Error, " << e.what() << "\n";
         return 1;
     }

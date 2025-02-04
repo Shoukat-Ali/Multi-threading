@@ -21,12 +21,18 @@
 
 int main() 
 {
-    const int NUM_THREADS = 5;
+    const int NUM_THREADS = 7;
     const int COUNTER = 7;
 
-    SimpleAtomic Obj(NUM_THREADS, COUNTER);
-    std::cout << "Initial value of atomic shared resource :: " << Obj.get_atomic_value() << "\n";
-    Obj.run();
+    try {
+        SimpleAtomic Obj(NUM_THREADS, COUNTER);
+        std::cout << "Initial value of atomic shared resource :: " << Obj.get_atomic_value() << "\n";
+        Obj.run();
+    }
+    catch (const std::exception& e) {
+        std::cerr << "Error, " << e.what() << "\n";
+        return 1;
+    }
     
     return 0;
 }
