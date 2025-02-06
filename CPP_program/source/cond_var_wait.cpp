@@ -6,18 +6,23 @@
 #include <vector>
 #include "../header/cond_var_wait.hpp"
 
+#define MAX_SLEEP_TIME 60
+
 /**
- * 
+ * Constructor
  */
 CondVarWait::CondVarWait(unsigned int sec) : interval(sec), ready(false) 
 {
-    // For now, nothing 
-    // TODO: Restriction on waitsec value
+    if(sec > MAX_SLEEP_TIME) {
+        std::cout << "The maximum thread sleep is defined :: " << MAX_SLEEP_TIME << "-second\n";
+        throw std::length_error("Thread sleep exceeds the maximum limit defined");
+    }
 }
 
 
 /**
- * 
+ * The functions attempts to writing to std::cout by preventing race conditions 
+ * and ensuring thread-safe output.
  */
 void CondVarWait::print_msg(const std::string& msg) 
 {
@@ -33,7 +38,8 @@ void CondVarWait::print_msg(const std::string& msg)
 
 
 /**
- * 
+ * The function attempts to make a thread wait for some condition to be met 
+ * using a condition variable. 
  */
 void CondVarWait::wait() 
 {
@@ -68,11 +74,13 @@ void CondVarWait::wait()
 
 
 /**
- * 
+ * The function attempts thread synchronization by notifying waiting 
+ * threads twice with a delay between notifications. 
+ * The delay is set in seconds 
  */
 void CondVarWait::signal() 
 {
-    // sleep for one sec
+    // sleep for interval seconds
     std::this_thread::sleep_for(std::chrono::seconds(interval));
     {
         std::lock_guard<std::mutex> lk(mtx);
@@ -80,7 +88,7 @@ void CondVarWait::signal()
     }
     cv.notify_all();
 
-    // sleep for one sec
+    // sleep for interval seconds
     std::this_thread::sleep_for(std::chrono::seconds(interval));
 
     {
@@ -91,3 +99,12 @@ void CondVarWait::signal()
     cv.notify_all();
 }
 
+
+/**
+ * Destructor
+ */
+CondVarWait::~CondVarWait()
+{
+    interval = 0; 
+    ready = false;
+}

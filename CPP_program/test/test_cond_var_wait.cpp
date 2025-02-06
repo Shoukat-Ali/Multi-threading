@@ -25,21 +25,28 @@
  */
 int main() 
 {
-    const unsigned int sec = 1;
+    const unsigned int sec = 6;
     const unsigned int NumThrds = 5;
 
-    CondVarWait Obj(sec);
-
-    std::vector<std::thread> thrds;
-    // Waiting threads 
-    for (unsigned int i = 1; i < NumThrds; ++i) {
-        thrds.push_back(std::thread(&CondVarWait::wait, &Obj));
+    try {
+        CondVarWait Obj(sec);
+        std::vector<std::thread> thrds;
+        
+        // Waiting threads 
+        for (unsigned int i = 1; i < NumThrds; ++i) {
+            thrds.push_back(std::thread(&CondVarWait::wait, &Obj));
+        }
+        
+        // Signal thread
+        thrds.push_back(std::thread(&CondVarWait::signal, &Obj));
+        
+        for (auto& thrd : thrds) {
+            thrd.join();
+        }
     }
-    // Signal thread
-    thrds.push_back(std::thread(&CondVarWait::signal, &Obj));
-    
-    for (auto& thrd : thrds) {
-        thrd.join();
+    catch (const std::exception& e) {
+        std::cerr << "Error, " << e.what() << "\n";
+        return 1;
     }
 
     return 0;

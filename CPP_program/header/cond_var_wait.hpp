@@ -27,6 +27,7 @@ class CondVarWait {
         void wait();
         void signal();
         void print_msg(const std::string& message);
+        ~CondVarWait();
 
 };
 
