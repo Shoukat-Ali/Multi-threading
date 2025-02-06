@@ -9,7 +9,7 @@
 
 
 /**
- * 
+ * Constructor
  */
 SimpleAtomic::SimpleAtomic(int NumThrds, int cnt) : nthrds(NumThrds), counter(cnt), shared_rsc(0) 
 {
@@ -24,7 +24,7 @@ SimpleAtomic::SimpleAtomic(int NumThrds, int cnt) : nthrds(NumThrds), counter(cn
 
 
 /**
- * 
+ * The function returns the current value of the atomic integer variable
  */
 int SimpleAtomic::get_atomic_value() 
 {
@@ -52,7 +52,7 @@ int SimpleAtomic::get_atomic_value()
 
 
 /**
- * 
+ * The function increments counter of times the atomic integer variable 
  */
 void SimpleAtomic::increment_atomic() 
 {
@@ -68,7 +68,7 @@ void SimpleAtomic::increment_atomic()
 
 
 /**
- * 
+ * The function creates vector of threads and waits for the threads to finish execution  
  */
 void SimpleAtomic::run() 
 {
@@ -84,4 +84,15 @@ void SimpleAtomic::run()
     }
 
     std::cout << "Finally we have, shared_rsc :: " << shared_rsc.load() << '\n';
+}
+
+
+/**
+ * Destructor
+ */
+SimpleAtomic::~SimpleAtomic()
+{
+    nthrds = 0;
+    counter = 0;
+    shared_rsc = 0;
 }

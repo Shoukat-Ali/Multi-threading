@@ -17,6 +17,7 @@ class SimpleAtomic
         void increment_atomic();
         int get_atomic_value();
         void run();
+        ~SimpleAtomic();
 
     private:
         int nthrds;

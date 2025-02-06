@@ -28,6 +28,11 @@ int main()
         SimpleAtomic Obj(NUM_THREADS, COUNTER);
         std::cout << "Initial value of atomic shared resource :: " << Obj.get_atomic_value() << "\n";
         Obj.run();
+
+        // Testing single thread
+        // SimpleAtomic Obj2(NUM_THREADS, COUNTER);
+        // std::cout << "Single thread atomic shared resource :: " << Obj2.get_atomic_value() << "\n";
+        // Obj2.increment_atomic();
     }
     catch (const std::exception& e) {
         std::cerr << "Error, " << e.what() << "\n";
