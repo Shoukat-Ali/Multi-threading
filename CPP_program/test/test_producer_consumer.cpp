@@ -1,6 +1,8 @@
 /**
- * This program demonstrates the use of condition variables for thread synchronization, 
- * allowing multiple threads to wait for a specific condition to be met before proceeding.
+ * This program demonstrates the producer-consumer example using multi-threading 
+ * where there is a shared resource and mutex and condition variable are used to ensuer synchronization. 
+ * Both producers and consumers operate independently where consumers have limited attempt. 
+ * The main thread signals producers to stop once all consumers exhaust their attempts.
  * 
  * g++ -Wall -Werror -g3 -O3 -fsanitize=thread -std=c++11 test_producer_consumer.cpp ../source/producer_consumer.cpp -o prog
  * or

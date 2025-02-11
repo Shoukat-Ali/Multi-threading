@@ -1,6 +1,6 @@
 /**
  * This program demonstrates a simple multi-threading program using the class thread (std::thread since C++11)
- * where mutex is used to protect a shared data from simultaneous access by multiple threads..
+ * where mutex is used to protect a shared data from simultaneous access by multiple threads.
  * 
  * g++ -Wall -Werror -g3 -O3 -fsanitize=thread -std=c++11 test_simple_mutex.cpp ../source/simple_mutex.cpp -o prog
  * or

@@ -1,6 +1,6 @@
 /**
- * This program demonstrates the use of atomic templated for thread synchronization, 
- * .
+ * This program demonstrates the use of atomic templated for thread synchronization. 
+ * 
  * 
  * g++ -Wall -Werror -g3 -O3 -fsanitize=thread -std=c++11 test_atomic_exmp.cpp ../source/atomic_exmp.cpp -o prog
  * or
