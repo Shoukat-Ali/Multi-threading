@@ -1,4 +1,9 @@
 '''
+The program demonstrates dining philosopher problem as a multi-threaded solution such that 
+a specified number of philosophers who share forks and must eat a set number of meals. 
+Each philosopher runs in its own thread, alternating between thinking and eating.
+The deadlock is prevented by consistently ordering fork acquisition and ensures thread safety 
+through proper synchronization.
 '''
 
 import threading
