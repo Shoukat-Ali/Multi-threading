@@ -1,4 +1,10 @@
 '''
+The program is an attempt to simulate the Sleeping Barber problem using the threading module.
+It models a barber shop with one barber and a limited number of waiting chairs. 
+The barber sleeps when there are no customers and wakes up to cut hair when a customer arrives. 
+Customers enter the shop, take a seat if a chair is available, or leave if the waiting room is full. 
+The simulation uses threading.Lock, threading.Semaphore, and queue.Queue to manage concurrency, 
+ensuring thread safety and preventing race conditions.
 
 To execute the program, run the following command
     python3 sleeping_barber.py 
@@ -36,6 +42,20 @@ class BarberShop:
         """
         self.waiting_chairs:queue.Queue = queue.Queue(maxsize=num_chairs)
         self.barber_lock = threading.Lock()
+        """
+        A semaphore manages an internal counter which is decremented by each acquire() call and 
+        incremented by each release() call. The counter can never go below zero; when acquire() 
+        finds that it is zero, it blocks, waiting until some other thread calls release().
+
+        class threading.Semaphore(value=1)
+        This class implements semaphore objects. A semaphore manages an atomic counter representing 
+        the number of release() calls minus the number of acquire() calls, plus an initial value. 
+        The acquire() method blocks if necessary until it can return without making the counter negative. 
+        If not given, value defaults to 1.
+
+        The optional argument gives the initial value for the internal counter; it defaults to 1. 
+        If the value given is less than 0, ValueError is raised.
+        """
         self.customer_semaphore = threading.Semaphore(0)
         self.barber_semaphore = threading.Semaphore(0)
         """
@@ -128,8 +148,8 @@ def simulate_barber_shop(num_customers:int, num_chairs:int) -> None:
 
 def main() -> None:
     # Number of customers and chairs configruation
-    NUM_CUSTOMERS = 5
-    NUM_CHAIRS = 1
+    NUM_CUSTOMERS = 7
+    NUM_CHAIRS = 2
     try:
         simulate_barber_shop(NUM_CUSTOMERS, NUM_CHAIRS)
     except ValueError as e:
