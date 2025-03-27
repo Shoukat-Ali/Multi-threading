@@ -10,7 +10,6 @@ To execute the program, run the following command
 import threading
 import time
 import random
-from typing import Optional
 import logging
 
 # Configure logging
