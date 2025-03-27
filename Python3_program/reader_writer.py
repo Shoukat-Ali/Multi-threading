@@ -1,7 +1,11 @@
 '''
+This multi-threaded Python3 program is an attempt to simulate the Reader-Writer problem with proper 
+synchronization using threading primitives such as semaphore and lock.
+
+To execute the program, run the following command
+    python3 reader_writer.py
 '''
 
-#!/usr/bin/env python3
 
 import threading
 import time
