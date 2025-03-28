@@ -20,4 +20,4 @@ One example illustrates the scenario where there are multiple consumer threads a
 
 In one of the examples, the program demonstrates the use of **semaphores** to control access to a shared resource in a multi-threaded environment. It demonstrates a login system where a limited number of users can log in simultaneously, represented by threads.
 
-One of the examples demonstrate producer-consumer problem using **semaphore** and **mutexe** to handle synchronization. Multiple producer and consumer threads access a shared buffer concurrently while ensuring data consistency and avoiding race conditions.
+One of the examples demonstrate producer-consumer problem using **semaphore** and **mutex** to handle synchronization. Multiple producer and consumer threads access a shared buffer concurrently while ensuring data consistency and avoiding race conditions.
